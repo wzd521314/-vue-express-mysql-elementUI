@@ -1,22 +1,26 @@
 module.exports = {
+  devServer: {
+    port: 8001,     // 端口
+  },
   configureWebpack: {
     resolve: {
       alias: {
         'assets': '@/assets',
         'components': '@/components',
         'views': '@/views',
-        'index': '@/index',
-        'backstage': '@/backstage'
+        'blog': '@/views/blog',
+        'background': '@/views/background',
+        'login': '@/views/login'
       }
     }
   },
   pages: {
     index: {
       //页面的入口
-      entry: './src/index/main.js',
+      entry: './src/views/blog/main.js',
 
       //页面的模板
-      template: './public/index.html',
+      template: './public/blog.html',
 
       //build时输出的文件名
       filename: 'index.html',
@@ -27,12 +31,20 @@ module.exports = {
       //提取出来的通用chunk 和 vendor chunk
       chunks: ['chunk-vendors', 'chunk-common' , 'index']
     },
-    backstage: {
-      entry: './src/backstage/main.js',
-      template: './public/backstage.html',
-      filename: 'backstage.html',
+    background: {
+      entry: './src/views/background/main.js',
+      template: './public/background.html',
+      filename: 'background.html',
       title: '博客后台',
-      chunks: ['chunk-vendors', 'chunk-common' , 'backstage']
+      chunks: ['chunk-vendors', 'chunk-common' , 'background']
+    },
+    login: {
+      entry: './src/views/login/main.js',
+      template: './public/login.html',
+      filename: 'login.html',
+      title: '登录界面',
+      chunks: ['chunk-vendors', 'chunk-common' , 'login']
     }
-  }
+  },
+  publicPath: './'
 }

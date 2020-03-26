@@ -1,5 +1,5 @@
 <template>
-  <div id="backstage">
+  <div id="background">
     <h1>这里是后台页面</h1>
     <a href="/">点击跳转到首页</a>
   </div>
@@ -9,16 +9,16 @@
 //例如：import 《组件名称》 from '《组件路径》';
 
 export default {
-name: 'About',
-//import引入的组件需要注入到对象中才能使用
-components: {},
-data() {
-//这里存放数据
-return {
+  name: 'About',
+  //import引入的组件需要注入到对象中才能使用
+  components: {},
+  data() {
+  //这里存放数据
+  return {
 
-};
-},
+  };
+  },
 }
 </script>
-<style lang='scss' scoped>
+<style scoped>
 </style>
