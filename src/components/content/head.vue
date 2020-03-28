@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-<div class=''><h1>我是About</h1></div>
+<div id="head">我是头部栏</div>
 </template>
 
 <script>
@@ -8,7 +8,6 @@
 //例如：import 《组件名称》 from '《组件路径》';
 
 export default {
-name: 'About',
 //import引入的组件需要注入到对象中才能使用
 components: {},
 data() {
@@ -20,5 +19,10 @@ return {
 }
 </script>
 <style lang='scss' scoped>
-
+//@import url(); 引入公共css类
+#head{
+  min-height: 45px;
+  background-color: black;
+  color: #fff;
+}
 </style>
