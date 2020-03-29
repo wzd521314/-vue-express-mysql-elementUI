@@ -2,8 +2,9 @@
 <template>
 <div class='person-card'>
   <div class="head"></div>
-  <div class="picture"><slot name="picture"></slot></div>
-  <span class="name"><slot name="name" class="test">迷う犬さん</slot></span>
+  <div class="picture"><img src="~assets/img/picture.jpg" alt=""></div>
+  <span class="name"><slot name="name" class="test">萌萌哒的酷狗君</slot></span>
+  <p class="person-description">一个努力找实习的前端小菜鸡~</p>
   <card-case class="card-case"></card-case>
 </div>
 </template>
@@ -16,7 +17,7 @@ import cardCase from 'components/content/cardCase'
 export default {
 //import引入的组件需要注入到对象中才能使用
 components: {
-  cardCase
+  cardCase,
 },
 data() {
 //这里存放数据
@@ -28,22 +29,15 @@ return {
 </script>
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
-.person-card{
-  position: relative;
-  display: inline-block;
-  width: 13%;
-  min-width: 200px;
-  height: 50%;
-  min-height: 450px;
-  text-align: center;
-  background-color: #fff;
-  box-shadow: 0 1px 3px rgba(26,26,26,.1);
-  border-radius: 7px;
-}
 
 .head{
   height: 100px;
-  background-color: chartreuse;
+  background-image: url(~assets/img/siyue.jpg);
+  background-position: center center;
+  background-size: cover;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  
 }
 
 .picture{
@@ -62,18 +56,11 @@ return {
   width: 110px;;
 }
 
-@font-face {
-  font-family: ExampleFont;
-  src: url(/path/to/fonts/examplefont.woff) format('woff'),
-       url(/path/to/fonts/examplefont.eot) format('eot');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
+
 
 .name{
-  font-family: "メイリオ", "Hiragino Kaku Gothic ProN", "MS PGothic", Osaka, "sans-serif";;
   position: relative;
+  font-family: Helvetica;
   font-size: 18px;
   font-weight: 500;
   top: 70px;
@@ -83,5 +70,31 @@ return {
   width: 100%;
   position: absolute;
   bottom: 15px;
+}
+
+.person-description{
+  position: relative;
+  top: 85px;
+  font-size: 12px;
+}
+
+
+.person-card {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 400px;
+  vertical-align:top;
+  min-height: 450px;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(26,26,26,.1);
+  border-radius: 7px;
+}
+
+.person-card img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 </style>

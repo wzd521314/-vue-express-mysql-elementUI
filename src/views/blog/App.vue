@@ -4,9 +4,11 @@
       <!-- 头部栏 -->
       <Head></Head>
     </div>
-    <div class="content">
+    <div class="content clear-fix">
       <!-- 人物卡片 -->
-      <person-card class="person-card"><img src="~assets/img/picture.jpg" alt="" slot="picture"></person-card>
+      <div id="left"><person-card class="person-card"></person-card></div>
+      <div id="center"><router-view></router-view></div>
+      <div id="right"><div class="notice"></div></div>
     </div>
   </div>
 </template>
@@ -35,9 +37,9 @@ return {
 @import "../../assets/css/base.css";
 html, body{
   height: 100%;
-  background: url("~assets/img/blog.jpg") no-repeat;
-  background-size: cover;
-  background-position: center center;
+  min-width: 1500px;
+
+
 }
 
 #blog{
@@ -45,13 +47,35 @@ html, body{
 }
 
 .content{
-  height: calc(100% - 45px);
+  position: relative;
+  background: url("~assets/img/blog.jpg") no-repeat fixed;
+  min-height: calc(100% - 45px);
+  background-position: center;
+  background-size: cover;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 20px;
 }
 
-.person-card img{
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+#left{
+  width: 15%;
+  float: left;
 }
 
+#center{
+  float: left;
+  font-size: 0px;
+  width: 70%;
+  background-color: darkmagenta;
+}
+
+#right{
+  float: left;
+  width: 15%;
+  background-color: darkred;
+}
+
+.notice{
+  height: 300px;
+}
 </style>
