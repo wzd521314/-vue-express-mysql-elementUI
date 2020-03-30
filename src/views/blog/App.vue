@@ -6,8 +6,8 @@
     </div>
     <div class="content clear-fix">
       <!-- 人物卡片 -->
-      <div id="left"><person-card class="person-card"></person-card></div>
       <div id="center"><router-view></router-view></div>
+      <div id="left"><person-card class="person-card"></person-card></div>
       <div id="right"><div class="notice"></div></div>
     </div>
   </div>
@@ -33,45 +33,63 @@ return {
 },
 }
 </script>
+
 <style>
-@import "../../assets/css/base.css";
-html, body{
+  html, body{
   height: 100%;
-  min-width: 1500px;
+  }
+</style>
+
+<style lang='scss' scoped>
+@import "../../assets/css/base.css";
 
 
-}
 
 #blog{
-  height: 100vh;
+  height: 100%;
 }
 
 .content{
   position: relative;
+  overflow: hidden;
   background: url("~assets/img/blog.jpg") no-repeat fixed;
+  min-width: 1500px;
   min-height: calc(100% - 45px);
   background-position: center;
   background-size: cover;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 500px;
+  padding-right: 500px;
   padding-top: 20px;
 }
 
 #left{
-  width: 15%;
+  position: relative;
+  left: -270px;
+  width: 250px;
+  padding-bottom: 10000px;
+  margin-bottom: -10000px;
   float: left;
+  margin-left: -100%;
 }
 
 #center{
   float: left;
+  min-height: 100px;
+
   font-size: 0px;
-  width: 70%;
-  background-color: darkmagenta;
+  padding-bottom: 10000px;
+  margin-bottom: -10000px;
+  width: 100%;
 }
 
 #right{
+  position: relative;
+  right: -320px;
   float: left;
-  width: 15%;
+  margin-left: -300px;
+  padding-bottom: 10000px;
+  margin-bottom: -10000px;
+  width: 300px;
   background-color: darkred;
 }
 

@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-<div class=''>我是关于界面</div>
+<div class='about'>我是关于界面</div>
 </template>
 
 <script>
@@ -20,5 +20,7 @@ return {
 </script>
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
-
+.about{
+  font-size: 18px;
+}
 </style>

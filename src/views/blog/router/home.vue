@@ -1,7 +1,12 @@
 <!--  -->
 <template>
 <div class='home'>
-  <blog-content></blog-content>
+  <blog-content v-for="val in blog" :key="val.title">
+    <span slot="title">{{val.title}}</span>
+    <span slot="time">{{val.createTime}}</span>
+    <span slot="article">{{val.article}}</span>
+    <span slot="tag">{{val.tag}}</span>
+  </blog-content>
 </div>
 </template>
 
@@ -18,7 +23,20 @@ components: {
 data() {
 //这里存放数据
 return {
-
+  blog: {
+    test1: {
+      title: '第一篇文章',
+      createTime: '2020-3-20',
+      article: '我是一只粉刷匠',
+      tag: 'javaScript'
+    },
+    test2: {
+      title: '第二篇文章',
+      createTime: '2020-3-21',
+      article: '我要把我的新房子，搞的很漂亮',
+      tag: 'Vue'
+    }
+  }
 };
 },
 }
@@ -27,6 +45,7 @@ return {
 //@import url(); 引入公共css类
 .home{
   display: inline-block;
+  width: 100%;
   font-size: 0px;
 }
 </style>
