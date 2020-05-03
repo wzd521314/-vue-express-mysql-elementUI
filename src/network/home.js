@@ -36,6 +36,20 @@ export function postPageData(pageSize, targetPage) {
     })
 }
 
+//修改博客数据
+export function editBlogData({title, id, tag, content}) {
+    return request({
+        method: 'post',
+        url: '/api/update',
+        data: {
+            title,
+            id,
+            content,
+            tag
+        }
+    })
+}
+
 //删除博客(修改状态state=0)
 export function delBlog(id) {
     return request({

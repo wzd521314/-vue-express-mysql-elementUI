@@ -9,7 +9,7 @@
           <Aside></Aside>
         </el-aside>
         <el-main id="main">
-          <router-view></router-view>
+          <router-view v-if="isRouterAlive"></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -29,12 +29,26 @@ export default {
     Header,
     Aside
   },
+  provide() {
+    return {
+      reload: this.reload
+    }
+  },
   data() {
   //这里存放数据
   return {
-
+    isRouterAlive: true
   };
   },
+
+  methods: {
+    reload() {
+      this.isRouterAlive = false
+      this.$nextTick(() => {
+        this.isRouterAlive = true
+      })
+    }
+  }
 }
 </script>
 
