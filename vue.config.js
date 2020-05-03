@@ -1,7 +1,5 @@
 module.exports = {
-  devServer: {
-    port: 8001,     // 端口
-  },
+  
   configureWebpack: {
     resolve: {
       alias: {
@@ -10,7 +8,9 @@ module.exports = {
         'views': '@/views',
         'blog': '@/views/blog',
         'background': '@/views/background',
-        'login': '@/views/login'
+        'login': '@/views/login',
+        'network': '@/network',
+        'utils': '@/utils'
       }
     }
   },
@@ -46,5 +46,16 @@ module.exports = {
       chunks: ['chunk-vendors', 'chunk-common' , 'login']
     }
   },
-  publicPath: './'
+  devServer: {
+    publicPath: '/',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '/api'
+        }
+      }
+    }
+  },
 }

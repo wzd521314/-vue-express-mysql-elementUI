@@ -2,11 +2,11 @@
 <template>
 <div class='blogContent'>
   <div class="header">
-    <span id="title"><i class="fa fa-file-text-o" aria-hidden="true"></i><a href="#"><slot name="title"></slot></a></span>
+    <span id="title" ><i class="fa fa-file-text-o" aria-hidden="true"></i><a @click='itemClick'><slot name="title"></slot></a></span>
     <span id="createTime"><i class="fa fa-clock-o" aria-hidden="true"></i><i class="time"><slot name="time"></slot></i></span>
   </div>
   <div class="content"><slot name="article"></slot></div>
-  <div class="footer"><i class="fa fa-tag" aria-hidden="true"></i><a id="tag" href="#"><slot name="tag"></slot></a><a class="read-more" href="#">阅读更多>></a></div>
+  <div class="footer"><i class="fa fa-tag" aria-hidden="true"></i><a id="tag" ><slot name="tag"></slot></a></div>
 </div>
 </template>
 
@@ -23,6 +23,11 @@ return {
 
 };
 },
+methods: {
+  itemClick() {
+    this.$router.push('/detail')
+  }
+}
 }
 </script>
 <style lang='scss' scoped>

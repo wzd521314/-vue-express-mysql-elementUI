@@ -1,8 +1,7 @@
 <!--  -->
 <template>
-<div class='article'>test
-  <router-link to="/article/test">我是test</router-link>
-  <router-view></router-view>
+<div class=''>
+  我是test
 </div>
 </template>
 
@@ -23,7 +22,5 @@ return {
 </script>
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
-.article{
-  font-size: 18px;
-}
+
 </style>

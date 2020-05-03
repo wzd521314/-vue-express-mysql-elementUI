@@ -1,8 +1,8 @@
 <!--  -->
 <template>
-<div class='article'>test
-  <router-link to="/article/test">我是test</router-link>
-  <router-view></router-view>
+<div class='header'>
+  <div class="left"><span>BLOG-Kugou</span></div>
+  <div class="right">aaa</div>
 </div>
 </template>
 
@@ -23,7 +23,23 @@ return {
 </script>
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
-.article{
-  font-size: 18px;
+.header {
+  height: 100%;
+}
+
+.left {
+  float: left;
+  color: #606266;
+  font-size: 24px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  text-align: center;
+  width: 200px;
+}
+
+.right {
+  float: right;
+  width: 100px;
+  background-color: darkorchid;
 }
 </style>

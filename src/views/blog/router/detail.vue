@@ -1,9 +1,6 @@
 <!--  -->
 <template>
-<div class='article'>test
-  <router-link to="/article/test">我是test</router-link>
-  <router-view></router-view>
-</div>
+<div class='detail'></div>
 </template>
 
 <script>
@@ -23,7 +20,13 @@ return {
 </script>
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
-.article{
+.detail{
   font-size: 18px;
+  background-color: #fff;
+  width: 100%;
+  height: 300px;
+  box-shadow: 0 1px 3px rgba(26,26,26,.1);
+  border-radius: 20px;
+  margin-bottom: 10px;
 }
 </style>
