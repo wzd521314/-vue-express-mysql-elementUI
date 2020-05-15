@@ -26,7 +26,7 @@ module.exports = {
       filename: 'index.html',
 
       //当使用title选项时
-      title: '个人博客',
+      title: '个人blog',
 
       //提取出来的通用chunk 和 vendor chunk
       chunks: ['chunk-vendors', 'chunk-common' , 'index']
