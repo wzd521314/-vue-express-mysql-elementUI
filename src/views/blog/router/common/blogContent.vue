@@ -2,7 +2,7 @@
 <template>
 <div class='blogContent'>
   <div class="header">
-    <span id="title" ><i class="fa fa-file-text-o" aria-hidden="true"></i><a @click='itemClick'><slot name="title"></slot></a></span>
+    <span id="title" ><i class="fa fa-file-text-o" aria-hidden="true"></i><a><slot name="title"></slot></a></span>
     <span id="createTime"><i class="fa fa-clock-o" aria-hidden="true"></i><i class="time"><slot name="time"></slot></i></span>
   </div>
   <div class="content"><slot name="article"></slot></div>
@@ -24,9 +24,7 @@ return {
 };
 },
 methods: {
-  itemClick() {
-    this.$router.push('/detail')
-  }
+  
 }
 }
 </script>

@@ -38,6 +38,7 @@ return {
 <style>
   html, body{
   height: 100%;
+  background-color: #f4f5f7;
   }
 </style>
 
@@ -51,7 +52,6 @@ return {
 .content{
   position: relative;
   overflow: hidden;
-  background: url("~assets/img/blog.jpg") no-repeat fixed;
   min-width: 1500px;
   min-height: calc(100% - 45px);
   background-position: center;
