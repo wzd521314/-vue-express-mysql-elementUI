@@ -1,21 +1,14 @@
 <template>
   <div id="blog">
-    <div class="header">
-      <!-- 头部栏 -->
-      <Head></Head>
-    </div>
-    <div class="content clear-fix">
-      <!-- 人物卡片 -->
-      <div id="center"><router-view></router-view></div>
-      <div id="left"><person-card class="person-card"></person-card></div>
-      <div id="right"><div class="notice"></div></div>
-    </div>
+    <head1></head1>
+    <content1></content1>
+    <footer>我是脚部</footer>
   </div>
 </template>
 <script>
-import Head from 'components/content/head'
-import personCard from 'components/content/personCard'
 
+import head1 from 'components/content/Head.vue'
+import content1 from 'components/content/Content.vue'
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
 
@@ -23,8 +16,8 @@ export default {
 name: 'blog',
 //import引入的组件需要注入到对象中才能使用
 components: {
-  Head,
-  personCard
+  head1,
+  content1
 },
 data() {
 //这里存放数据
@@ -36,63 +29,17 @@ return {
 </script>
 
 <style>
-  html, body{
+@import "../../assets/css/base.css";
+
+html, body {
+  width: 100%;
   height: 100%;
+  font-size: 14px;
   background-color: #f4f5f7;
-  }
+}
 </style>
 
 <style lang='scss' scoped>
-@import "../../assets/css/base.css";
 
 
-
-
-
-.content{
-  position: relative;
-  overflow: hidden;
-  min-width: 1500px;
-  min-height: calc(100% - 45px);
-  background-position: center;
-  background-size: cover;
-  padding-left: 500px;
-  padding-right: 500px;
-  padding-top: 20px;
-}
-
-#left{
-  position: relative;
-  left: -270px;
-  width: 250px;
-  padding-bottom: 10000px;
-  margin-bottom: -10000px;
-  float: left;
-  margin-left: -100%;
-}
-
-#center{
-  float: left;
-  min-height: 100px;
-
-  font-size: 0px;
-  padding-bottom: 10000px;
-  margin-bottom: -10000px;
-  width: 100%;
-}
-
-#right{
-  position: relative;
-  right: -320px;
-  float: left;
-  margin-left: -300px;
-  padding-bottom: 10000px;
-  margin-bottom: -10000px;
-  width: 300px;
-  background-color: darkred;
-}
-
-.notice{
-  height: 300px;
-}
 </style>

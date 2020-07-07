@@ -2,7 +2,7 @@
 <template>
 <div class='cardCase'>
   <account>
-    <account-item><img class="account-picture" src="~assets/img/svg/QQ.svg" slot="account-icon"><a href="https://www.baidu.com/" slot="account-username">南风拂过少年时</a></account-item>
+    <account-item><img class="account-picture" src="~assets/img/svg/QQ.svg" slot="account-icon"><a slot="account-username">南风拂过少年时</a></account-item>
     <account-item><img class="account-picture" src="~assets/img/svg/weiBo.svg" slot="account-icon"><a slot="account-username">萌萌哒的酷狗君</a></account-item>
     <account-item><img class="account-picture" src="~assets/img/svg/weChat.svg" slot="account-icon"><a slot="account-username">万振东</a></account-item>    
     <account-item><img class="account-picture" src="~assets/img/svg/GitHub.svg" slot="account-icon"><a slot="account-username">wzd521314</a></account-item>
