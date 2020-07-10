@@ -2,12 +2,16 @@
 <template>
 <div class="body clear-fix">
   <div class="container clear-fix">
-    <div class="content"><router-view></router-view></div>
+    <div class="content">
+      <blog-content v-for="index of 5" :key="index" :articleIndex="index"></blog-content>
+    </div>
   </div>
   <div class="left">
     <person-card></person-card>
   </div>
-  <div class="right">333</div>
+  <div class="right">
+    <notice></notice>
+  </div>
 </div>
 </template>
 
@@ -15,11 +19,17 @@
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
 import personCard from "components/content/personCard.vue"
+import blogContent from 'components/content/blogContent.vue'
+import notice from 'components/content/notice.vue'
+
 
 export default {
 //import引入的组件需要注入到对象中才能使用
 components: {
-  personCard
+  personCard,
+  blogContent,
+  notice
+
 },
 data() {
 //这里存放数据
@@ -57,12 +67,12 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 .body {
   padding-top: 20px;
   margin: 0 auto;
-  width: calc(100% - 300px);
+  width: calc(100% - 200px);
   overflow: hidden;
   .container {
     float: left;
     width: 100%;
-    padding: 0 260px;
+    padding: 0 280px;
     padding-bottom: 10000px;
     margin-bottom: -10000px;
     
@@ -79,7 +89,6 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
     width: 250px;
     float: right;
     margin-left: -250px;
-    background-color: brown;
     padding-bottom: 10000px;
     margin-bottom: -10000px;
 

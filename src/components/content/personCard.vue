@@ -88,8 +88,8 @@ return {
   min-height: 450px;
   text-align: center;
   background-color: #fff;
-  box-shadow: 0 1px 3px rgba(26,26,26,.1);
-  border-radius: 7px;
+  border: 1px solid silver;
+  box-shadow: 0 2px 5px 0 rgba(33, 22, 22, 0.2), 0 2px 10px 0 rgba(0,0,0,0.12);  border-radius: 7px;
 }
 
 .person-card img{

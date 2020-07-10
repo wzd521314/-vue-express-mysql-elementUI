@@ -84,6 +84,7 @@ $text-color: #222;
 
 .header {
   height: 50px;
+  box-shadow: -1px 0px 3px;
   .logo {
     line-height: 50px;
     margin: 0 30px;

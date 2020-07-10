@@ -2,7 +2,7 @@
 <template>
 <div class='blog'>
   <header>
-    <h1>愿你编码半生，归来仍是少年</h1>
+    <h1 @click= "contentJump">愿你编码半生，归来仍是少年</h1>
     <div class="itemRows">
       <span><i class="fa fa-clock-o" aria-hidden="true"></i><i>{{create}}</i></span>
       <span><i class="fa fa-user" aria-hidden="true"></i><i>萌萌哒的酷狗君</i></span>
@@ -12,11 +12,11 @@
   <div class="content">
     《定风波·南海归赠王定国侍人寓娘》宋代：苏轼常羡人间琢玉郎，天应乞与点酥娘。尽道清歌传皓齿，风起，雪飞炎海变清凉。万里归来颜愈少，微笑，笑时犹带岭梅香。试问岭南应不好，却道：此心安处是吾乡。标题出自此诗中的《万里归来颜愈少》时间过得真的如梭一般，转眼间就已经成为别人口中快要毕业的学长。那么这篇文章就献给即将毕业的自己，用来记录我那恍恍惚惚的四年以及自己的求职之路吧。如果你我是朋友，那么看看关...《定风波·南海归赠王定国侍人寓娘》宋代：苏轼常羡人间琢玉郎，天应乞与点酥娘。尽道清歌传皓齿，风起，雪飞炎海变清凉。万里归来颜愈少，微笑，笑时犹带岭梅香。试问岭南应不好，却道：此心安处是吾乡。标题出自此诗中的《万里归来颜愈少》时间过得真的如梭一般，转眼间就已经成为别人口中快要毕业的学长。那么这篇文章就献给即将毕业的自己，用来记录我那恍恍惚惚的四年以及自己的求职之路吧。如果你我是朋友，那么看看关...
   </div>
-  <div class="readMore"><span>阅读全文<i class="fa fa-angle-double-right" aria-hidden="true"></i></span> </div>
+  <div class="readMore" @click="contentJump" ><span>阅读全文<i class="fa fa-angle-double-right" aria-hidden="true"></i></span> </div>
   <hr>
   <div class="footer">
-    <i class="fa fa-tag" aria-hidden="true">&nbsp原创</i>
-    <i class="fa fa-tag" aria-hidden="true">&nbsp生活跪记</i>
+    <i class="fa fa-tag" aria-hidden="true"> 原创</i>
+    <i class="fa fa-tag" aria-hidden="true"> 生活跪记</i>
   </div>
 </div>
 </template>
@@ -42,9 +42,20 @@ computed: {
 },
 //监控data中的数据变化
 watch: {},
+
+props: {
+  articleIndex: Number
+},
 //方法集合
 methods: {
-
+  contentJump() {
+    this.$router.push({
+      path: '/articleContent',
+      query: {
+        id: this.articleIndex
+      }
+    })
+  }
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
@@ -66,7 +77,8 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
 .blog {
-  padding: 20px 0 20px 20px;
+  padding: 20px 20px 20px 20px;
+  margin-bottom: 25px;
   box-sizing: content-box;
   border: 1px solid silver;
   box-shadow: 0 2px 5px 0 rgba(33, 22, 22, 0.2), 0 2px 10px 0 rgba(0,0,0,0.12);
