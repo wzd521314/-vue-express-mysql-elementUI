@@ -12,13 +12,13 @@
       style="width: 100%"
       @selection-change='handleSelectionChange'>
       <el-table-column type="selection" width="100px"></el-table-column>
-      <el-table-column label="日期" width="150px" align="center" prop="createtime"></el-table-column>
-      <el-table-column label="文章标题"  align="center" prop="title"></el-table-column>
-      <el-table-column label="标签" width="200px" prop="tag" align="center"></el-table-column>
+      <el-table-column label="日期" width="160px" align="center" prop="article_date"></el-table-column>
+      <el-table-column label="文章标题"  align="center" prop="article_title"></el-table-column>
+      <el-table-column label="标签" width="200px" prop="label_name" align="center"></el-table-column>
       <el-table-column label="操作" width="300px" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-edit" @click="handleEdit(scope.row.id)">编辑</el-button>
-          <el-button type="danger" icon="el-icon-delete" @click="handleDel(scope.row.id)">删除</el-button>
+          <el-button type="primary" icon="el-icon-edit" @click="handleEdit(scope.row.article_id)">编辑</el-button>
+          <el-button type="danger" icon="el-icon-delete" @click="handleDel(scope.row.article_id)">删除</el-button>
         </template>
       </el-table-column>
       </el-table>
@@ -128,13 +128,8 @@ methods: {
   getBlogData(){
     postPageData(this.blog.pageSize, this.blog.currentPage).then(result => {
       this.blog.list = []
-      this.blog.totalItem = result.data.data.blogTotal
-      result.data.data.blogData.forEach((element) => {
-        //引入工具函数将时间戳格式化为年-月-日 时-分-秒
-        element.createtime = formatDateTime(element.createtime)
-        this.blog.list.push(element)
-
-      })
+      this.blog.totalItem = result.data.data[1][0].count
+      this.blog.list = result.data.data[0]
     })
   },
 
@@ -142,25 +137,26 @@ methods: {
   handleSelectionChange(selection){
     this.selectionId = []
     selection.forEach(element => {
-      this.selectionId.push(element.id)
+      this.selectionId.push(element.article_id)
     })
-    console.log(this.selectionId)
   },
 
   //处理编辑点击
   handleEdit(id) {
     getBlogDetails(id).then(result => {
-      this.editBlog.title = result.data.data.title;
-      this.editBlog.content = result.data.data.content;
-      this.editBlog.tag = result.data.data.tag
-      this.editBlog.id = result.data.data.id
+      this.editBlog.title = result.data.data.article_title;
+      this.editBlog.content = result.data.data.article_content;
+      this.editBlog.tag = result.data.data.label_name
+      this.editBlog.id = result.data.data.article_id
       this.dialogVisible = true;
     })
   },
 
   //处理确认修改博客
   handleEditBlog() {
+    console.log(this.editBlog)
     editBlogData(this.editBlog).then(result => {
+      
       if(result.data.errno === 0) {
         this.reload()
       }
@@ -169,9 +165,9 @@ methods: {
 
   //处理删除点击
   handleDel(id) {
+    console.log(id)
     let blogId = []
     blogId[0] = id
-    console.log('我要删除的的文章在数据库的id是：' + blogId)
     delBlog(blogId).then(result => {
       if(result.data.errno === 0){
         this.reload()
@@ -182,12 +178,11 @@ methods: {
   //处理批量删除点击
   handleDelAll() {
     delBlog(this.selectionId).then(result => {
-      console.log(result)
       if(result.data.errno === 0){
         alert('删除成功！')
+        this.reload()
       }
     })
-    console.log(`我现在一共要删除这些：${this.selectionId}`)
   },
 
   handleSizeChange(val) {

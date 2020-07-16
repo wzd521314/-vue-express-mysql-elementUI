@@ -2,22 +2,22 @@
 <template>
 <div class='blog'>
   <header>
-    <h1 @click= "contentJump">愿你编码半生，归来仍是少年</h1>
+    <h1 ><span @click="contentJump"><slot name="article_title">愿你编码半生 归来仍是少年</slot></span></h1>
     <div class="itemRows">
-      <span><i class="fa fa-clock-o" aria-hidden="true"></i><i>{{create}}</i></span>
-      <span><i class="fa fa-user" aria-hidden="true"></i><i>萌萌哒的酷狗君</i></span>
-      <span><i class="fa fa-folder-open-o" aria-hidden="true"></i><i>JavaScript</i></span>
+      <span><i class="fa fa-clock-o" aria-hidden="true"></i><i><slot name="article_date">2020-07-14</slot></i></span>
+      <span><i class="fa fa-user" aria-hidden="true"></i><i><slot name="atticle_author">萌萌哒的酷狗君</slot></i></span>
+      <span><i class="fa fa-folder-open-o" aria-hidden="true"></i><i><slot name="label">JavaScript</slot></i></span>
     </div>
   </header>
   <div class="content">
-    《定风波·南海归赠王定国侍人寓娘》宋代：苏轼常羡人间琢玉郎，天应乞与点酥娘。尽道清歌传皓齿，风起，雪飞炎海变清凉。万里归来颜愈少，微笑，笑时犹带岭梅香。试问岭南应不好，却道：此心安处是吾乡。标题出自此诗中的《万里归来颜愈少》时间过得真的如梭一般，转眼间就已经成为别人口中快要毕业的学长。那么这篇文章就献给即将毕业的自己，用来记录我那恍恍惚惚的四年以及自己的求职之路吧。如果你我是朋友，那么看看关...《定风波·南海归赠王定国侍人寓娘》宋代：苏轼常羡人间琢玉郎，天应乞与点酥娘。尽道清歌传皓齿，风起，雪飞炎海变清凉。万里归来颜愈少，微笑，笑时犹带岭梅香。试问岭南应不好，却道：此心安处是吾乡。标题出自此诗中的《万里归来颜愈少》时间过得真的如梭一般，转眼间就已经成为别人口中快要毕业的学长。那么这篇文章就献给即将毕业的自己，用来记录我那恍恍惚惚的四年以及自己的求职之路吧。如果你我是朋友，那么看看关...
+    <slot name="article-content">
+      定风波·南海归赠王定国侍人寓娘》宋代：苏轼常羡人间琢玉郎，天应乞与点酥娘。尽道清歌传皓齿，风起，雪飞炎海变清凉。万里归来颜愈少，微笑，笑时犹带岭梅香。试问岭南应不好，却道：此心安处是吾乡。标题出自此诗中的《万里归来颜愈少》时间过得真的如梭一般，转眼间就已经成为别人口中快要毕业的学长。那么这篇文章就献给即将毕业的自己，用来记录我那恍恍惚惚的四年以及自己的求职之路吧。如果你我是朋友，那么看看关...《定风波·南海归赠王定国侍人寓娘》宋代：苏轼常羡人间琢玉郎，天应乞与点酥娘。尽道清歌传皓齿，风起，雪飞炎海变清凉。万里归来颜愈少，微笑，笑时犹带岭梅香。试问岭南应不好，却道：此心安处是吾乡。标题出自此诗中的《万里归来颜愈少》时间过得真的如梭一般，转眼间就已经成为别人口中快要毕业的学长。那么这篇文章就献给即将毕业的自己，用来记录我那恍恍惚惚的四年以及自己的求职之路吧。如果你我是朋友，那么看看关...
+    </slot>
   </div>
-  <div class="readMore" @click="contentJump" ><span>阅读全文<i class="fa fa-angle-double-right" aria-hidden="true"></i></span> </div>
   <hr>
-  <div class="footer">
-    <i class="fa fa-tag" aria-hidden="true"> 原创</i>
-    <i class="fa fa-tag" aria-hidden="true"> 生活跪记</i>
-  </div>
+  <div class="readMore" @click="contentJump" ><span>阅读全文<i class="fa fa-angle-double-right" aria-hidden="true"></i></span> </div>
+
+  
 </div>
 </template>
 
@@ -31,14 +31,11 @@ components: {},
 data() {
 //这里存放数据
 return {
-  createTime: Date.now()
 };
 },
 //监听属性 类似于data概念
 computed: {
-  create() {
-    return formatDateTime(this.createTime)
-  }
+  
 },
 //监控data中的数据变化
 watch: {},

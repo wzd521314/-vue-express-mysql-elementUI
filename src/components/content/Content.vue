@@ -3,7 +3,33 @@
 <div class="body clear-fix">
   <div class="container clear-fix">
     <div class="content">
-      <blog-content v-for="index of 5" :key="index" :articleIndex="index"></blog-content>
+      <blog-content v-for="item of blogData" :key="item.article_id" :articleIndex="item.article_id">
+        <template #article_title>
+          {{item.article_title}}
+        </template>
+        <template #article_date>
+          {{item.article_date}}
+        </template>
+        <template #article_author>
+          {{item.user_nickname}}
+        </template>
+        <template #label>
+          {{item.label_name}}
+        </template>
+        <template #article-content>
+          <div class="highLight markdown-body"><div v-html="item.article_content"></div></div>
+        </template>
+      </blog-content>
+    </div>
+    <div class="pagination">
+      <el-pagination
+      background
+      :current-page= 'currentPage'
+      :page-size= 5
+      :total= "total"
+      layout="prev, pager, next"
+      @current-change="handleCurrentChange">
+      </el-pagination>  
     </div>
   </div>
   <div class="left">
@@ -21,7 +47,27 @@
 import personCard from "components/content/personCard.vue"
 import blogContent from 'components/content/blogContent.vue'
 import notice from 'components/content/notice.vue'
+import {postPageData} from 'network/home.js'
 
+import marked from 'marked'
+import hljs from "highlight.js";
+import 'highlight.js/styles/monokai-sublime.css';
+
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  highlight: function(code) {
+    return hljs.highlightAuto(code).value;
+  },
+  
+  pedantic: false,
+  gfm: true,
+  tables: true,
+  breaks: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
+  xhtml: false
+});
 
 export default {
 //import引入的组件需要注入到对象中才能使用
@@ -34,7 +80,9 @@ components: {
 data() {
 //这里存放数据
 return {
-
+  total: null,
+  currentPage: 1,
+  blogData: []
 };
 },
 //监听属性 类似于data概念
@@ -43,11 +91,33 @@ computed: {},
 watch: {},
 //方法集合
 methods: {
-
+  handleCurrentChange(val) {
+    this.currentPage = val
+    //页面跳转是获取下一页的数据
+    postPageData(5, this.currentPage).then(result => {
+      let blog = result.data.data
+      this.total = blog[1][0].count
+      blog[0].forEach(element => {
+        console.log(element)
+        element.article_content = marked(element.article_content)
+      }) 
+      
+      this.blogData = blog[0]
+    })
+  }
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
-
+  //在页面创建后获取初始化的博客数据
+  postPageData(5, this.currentPage).then(result => {
+    let blog = result.data.data
+    this.total = blog[1][0].count
+    blog[0].forEach(element => {
+        element.article_content = marked(element.article_content)
+      })
+    this.blogData = blog[0]
+    console.log(this.blogData)
+  })
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {
@@ -75,7 +145,10 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
     padding: 0 280px;
     padding-bottom: 10000px;
     margin-bottom: -10000px;
-    
+    .pagination {
+      display: flex;
+      justify-content: center;
+    }
   }
   .left {
     float: left;

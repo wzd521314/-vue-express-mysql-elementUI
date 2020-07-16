@@ -8,6 +8,8 @@
 <script>
 
 import head1 from 'components/content/Head.vue'
+import 'github-markdown-css/github-markdown.css';
+
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
 
@@ -26,7 +28,7 @@ return {
 }
 </script>
 
-<style>
+<style lang='scss'>
 @import "../../assets/css/base.css";
 
 html, body {
@@ -34,6 +36,29 @@ html, body {
   height: 100%;
   font-size: 14px;
   font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
+}
+
+
+.markdown-body {
+  
+
+  
+  
+  hr {
+    height: 1px;
+  }
+  
+  code {
+    color: #e96900;
+  }
+
+  pre {
+    background-color: #272822;
+    color: #b6b6b6;
+    code {
+      color: #b6b6b6;
+    }
+  }
 }
 </style>
 
