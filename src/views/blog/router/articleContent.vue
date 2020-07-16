@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-<div class='content'>
+<div class='content' ref="content">
   <div class="article">
     <div class="article-top">
       <h1>{{articleContent.article_title}}</h1>
@@ -75,9 +75,10 @@ created() {
     this.articleContent.article_content = marked(this.articleContent.article_content)
   }).then(() => {
     //待获取到数据后
-    let node = document.querySelector('.markdown-body').childNodes
-    console.log(node)
-    console.log(node.length)
+    
+    this.$refs.content.appendChild(markdownToc('.markdown-body'))
+    
+    
   })
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
@@ -89,10 +90,14 @@ beforeMount() {}, //生命周期 - 挂载之前
 beforeUpdate() {}, //生命周期 - 更新之前
 updated() {}, //生命周期 - 更新之后
 beforeDestroy() {}, //生命周期 - 销毁之前
-destroyed() {}, //生命周期 - 销毁完成
+destroyed() {
+  //在该页面销毁时取消对页面的滚轮监听
+  document.body.onscroll = null
+}, //生命周期 - 销毁完成
 activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 }
 </script>
+
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
 .article {
