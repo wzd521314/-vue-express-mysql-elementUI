@@ -60,3 +60,12 @@ export function delBlog(id) {
         }
     })
 }
+
+
+//获取标签列表
+export function getTags() {
+    return request({
+        method: 'post',
+        url: '/api/tags'
+    })
+}

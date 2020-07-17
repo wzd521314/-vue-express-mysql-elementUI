@@ -1,5 +1,5 @@
 //由于默认使用H1作为文章标题，所以内容的标题等级都是从H2开始计算，如有其他需求可以自行修改
-export function markdownToc(selector, onNode) {
+export function markdownToc(selector) {
   //获取到markdown文章全部内容的子节点列表
   let allNodes = document.querySelector(selector).childNodes
   let maxLevel = 2
@@ -22,7 +22,6 @@ export function markdownToc(selector, onNode) {
       nodeList.push(nodeInfo)
     }
   }
-  console.log(nodeList);
   
   //根据NodeList的内容自动生成节点列表
   let Toc = document.createElement('div')
@@ -34,7 +33,7 @@ export function markdownToc(selector, onNode) {
   Toc.innerHTML = `${TocItem}`
 
   for(let node of Toc.childNodes) {
-    node.style.left = (node.getAttribute('level') - 2) * 12 + 'px'
+    node.style.left = (node.getAttribute('level') - maxLevel) * 12 + 'px'
   }
 
 
