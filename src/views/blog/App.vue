@@ -2,7 +2,8 @@
   <div id="blog">
     <head1></head1>
     <router-view></router-view>
-    <footer>我是脚部</footer>
+    <footer>
+    </footer>
   </div>
 </template>
 <script>
@@ -25,6 +26,18 @@ return {
 
 };
 },
+
+watch: {
+  '$route': function(to ,from) {
+    console.log(2)
+    if(to.path === from.path) {
+      this.$router.go(0)
+      console.log(1)
+    }
+    
+    
+  }
+}
 }
 </script>
 
@@ -34,14 +47,19 @@ return {
 html, body {
   width: 100%;
   height: 100%;
+  line-height: 1.6;
+  font-weight: 400;
   font-size: 14px;
   font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
 }
 
 
-.markdown-body {
+.article-content .markdown-body {
   
-
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
   
   
   hr {
@@ -59,6 +77,25 @@ html, body {
       color: #b6b6b6;
     }
   }
+
+  img {
+    box-sizing: border-box;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+#article_content .markdown-body {
+  overflow:hidden;
+  line-height: 2em;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  font-size: 16px;
+  color: #565a5f;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 </style>
 

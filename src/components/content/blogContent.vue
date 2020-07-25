@@ -9,7 +9,7 @@
       <span><i class="fa fa-folder-open-o" aria-hidden="true"></i><i><slot name="label">JavaScript</slot></i></span>
     </div>
   </header>
-  <div class="content">
+  <div id="article_content">
     <slot name="article-content">
       定风波·南海归赠王定国侍人寓娘》宋代：苏轼常羡人间琢玉郎，天应乞与点酥娘。尽道清歌传皓齿，风起，雪飞炎海变清凉。万里归来颜愈少，微笑，笑时犹带岭梅香。试问岭南应不好，却道：此心安处是吾乡。标题出自此诗中的《万里归来颜愈少》时间过得真的如梭一般，转眼间就已经成为别人口中快要毕业的学长。那么这篇文章就献给即将毕业的自己，用来记录我那恍恍惚惚的四年以及自己的求职之路吧。如果你我是朋友，那么看看关...《定风波·南海归赠王定国侍人寓娘》宋代：苏轼常羡人间琢玉郎，天应乞与点酥娘。尽道清歌传皓齿，风起，雪飞炎海变清凉。万里归来颜愈少，微笑，笑时犹带岭梅香。试问岭南应不好，却道：此心安处是吾乡。标题出自此诗中的《万里归来颜愈少》时间过得真的如梭一般，转眼间就已经成为别人口中快要毕业的学长。那么这篇文章就献给即将毕业的自己，用来记录我那恍恍惚惚的四年以及自己的求职之路吧。如果你我是朋友，那么看看关...
     </slot>
@@ -74,7 +74,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
 .blog {
-  padding: 20px 20px 20px 20px;
+  padding: 0 0 20px 20px;
   margin-bottom: 25px;
   box-sizing: content-box;
   border: 1px solid silver;
@@ -83,7 +83,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
   header {
     height: 80px;
     h1 {
-      margin: 0 0 28px 0;
+      margin: 14 0 16px 0;
       font-size:  24px;
       font-weight: 600;
       color: #7f7f7f;
@@ -96,16 +96,8 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 
     }
   }
-  .content {
-    overflow:hidden;
-    line-height: 2em;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    font-size: 16px;
-    color: #565a5f;
-    margin: 10px 0;
+  #article_content {
+    padding: 10px 8px 10px 8px;
   }
   .readMore {
     font-size: 16px;

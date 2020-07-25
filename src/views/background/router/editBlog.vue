@@ -43,7 +43,17 @@
       :visible.sync="dialogVisible"
       title="修改博客">
       <div><span>文章标题：</span><el-input class="input" v-model="editBlog.title" placeholder="请输入文章标题" clearable></el-input></div>
-      <div><span>文章分类：</span><el-input class="input" v-model="editBlog.tag" placeholder="请输入文章分类" clearable></el-input></div>
+      <div>
+        <span>文章分类：</span>
+        <el-select class="input" v-model="editBlog.tag"  placeholder="选一个喜欢的吧">
+          <el-option
+          v-for="item in tagLists"
+          :key="item.label_id"
+          :label="item.label_name"
+          :value="item.label_id">
+          </el-option>
+        </el-select>
+      </div>
       <mavon-editor class="markdown" v-model="editBlog.content" :toolbars="toolbars"></mavon-editor>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" class="button-item" @click="handleEditBlog">确认</el-button>
@@ -58,7 +68,7 @@
 </template>
 
 <script>
-import {getBlogDetails, postPageData, delBlog, editBlogData} from 'network/home.js'
+import {getBlogDetails, postPageData, delBlog, editBlogData, getTags} from 'network/home.js'
 import {formatDate, formatDateTime} from 'utils/utils.js'
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
@@ -84,6 +94,7 @@ return {
     content: '',
     id: undefined
   },
+  tagLists: [],
   selectionId: null,
   toolbars:{
           bold: true, // 粗体
@@ -130,6 +141,8 @@ methods: {
       this.blog.list = []
       this.blog.totalItem = result.data.data[1][0].count
       this.blog.list = result.data.data[0]
+      console.log(this.blog.list);
+      
     })
   },
 
@@ -148,6 +161,9 @@ methods: {
       this.editBlog.content = result.data.data.article_content;
       this.editBlog.tag = result.data.data.label_name
       this.editBlog.id = result.data.data.article_id
+      return getTags()
+    }).then(result => {
+      this.tagLists = result.data.data;
       this.dialogVisible = true;
     })
   },

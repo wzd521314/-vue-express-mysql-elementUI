@@ -9,13 +9,14 @@
         <a  data-path="Home">首页</a>
       </li>
       <li>
-        <i slot="icon" class="fa fa-book" aria-hidden="true"></i>
-        <a  data-path="Article">文章</a>
+        <i slot="icon" class="fa fa-film" aria-hidden="true"></i>
+        <a  data-path="Archive">归档</a>
       </li>
       <li>
-        <i slot="icon" class="fa fa-film" aria-hidden="true"></i>
-        <a  data-path="Chat">杂谈</a>
+        <i slot="icon" class="fa fa-book" aria-hidden="true"></i>
+        <a  data-path="Categories">分类</a>
       </li>
+      
       <li>
         <i slot="icon" class="fa fa-user" aria-hidden="true"></i>
         <a  data-path="About">关于我</a>
@@ -25,6 +26,10 @@
   <div class="search">
     <input type="text" name="" id="" class="nav-search" placeholder="想找点什么？">
     <i slot="icon" class="fa fa-search" aria-hidden="true"></i>
+  </div>
+  <div class="author">
+    <el-button type="primary" size="small" @click="loginClick">登录</el-button>
+    <el-button type="primary" size="small" @click="registerClick">注册</el-button>
   </div>
 </div>
 </template>
@@ -51,11 +56,24 @@ methods: {
   navbarClick(e) {
     if(e.target.nodeName === 'A') {
       
-      this.$router.push({name: e.target.getAttribute('data-path')})
+      this.$router.push({
+        name: e.target.getAttribute('data-path'), 
+        params: {date: Date.now()}
+      })
       //this.$router.push(e.target.getAttribute('data-path'))
     }
     //this.$router.push(e.target.getAttribute('data-path'))
     //console.log()
+  },
+  loginClick() {
+    this.$router.push({
+      name: 'Login'
+    })
+  },
+  registerClick() {
+    this.$router.push({
+      name: 'Register'
+    })
   }
   
 },
@@ -78,7 +96,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 </script>
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
-$text-color: #222;
+$text-color: #666;
 
 
 
@@ -101,18 +119,23 @@ $text-color: #222;
     ul {
       display: flex;
       height: 100%;
-      align-items: center;
+      
       li {
+        display: flex;
         font-size: 18px;
         color: $text-color;
         list-style: none;
-        margin-right: 20px;
+        padding: 0 10px;
+        align-items: center;
+        cursor: pointer;
+        &:hover {
+          background-color: #eee;
+          color: #38b7ea;
+        }
         i {
         margin-right: 5px;
         }
-        a {
-          color: $text-color;
-        }
+        
       }
     }
   }
@@ -149,6 +172,13 @@ $text-color: #222;
       border-radius: 2px;
       background: #e7e7e7;
     }
+  }
+  .author {
+    height: 100%;
+    display: flex;
+    float: right;
+    margin-right: 10px;
+    align-items: center;
   }
 }
 

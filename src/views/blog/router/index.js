@@ -7,10 +7,13 @@ VueRouter.prototype.push = function push(location) {
 }
 
 const Home = () => import ('blog/router/home.vue')
-const Article = () => import ('blog/router/article.vue')
-const Chat = () => import ('blog/router/chat.vue')
+const Categories = () => import ('blog/router/categories.vue')
+const Archive = () => import ('blog/router/archive.vue')
 const About = () => import ('blog/router/about.vue')
 const articleContent = () => import ('blog/router/articleContent.vue')
+const Login = () => import ('blog/router/login.vue')
+const Register = () => import ('blog/router/register.vue')
+
 
 
 
@@ -28,14 +31,14 @@ const routes = [
     component: Home,
   },
   {
-    path: '/article',
-    name: 'Article',
-    component: Article,
+    path: '/categories',
+    name: 'Categories',
+    component: Categories,
   },
   {
-    path: '/chat',
-    name: 'Chat',
-    component: Chat,
+    path: '/archive',
+    name: 'Archive',
+    component: Archive,
   },
   {
     path: '/about',
@@ -46,6 +49,16 @@ const routes = [
     path: '/articleContent',
     name: 'articleContent',
     component: articleContent
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
   },
   {
     path: '',

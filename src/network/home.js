@@ -69,3 +69,57 @@ export function getTags() {
         url: '/api/tags'
     })
 }
+
+//添加分类
+export function newTag(tagName) {
+    return request({
+        method: 'post',
+        url: '/api/newTag',
+        data: {
+            tagName
+        }
+    })
+}
+
+//获取分类所对应的博文数目信息
+export function getTagCount() {
+    return request({
+        method: 'post',
+        url: '/api/tagCount'
+    })
+}
+
+//获取月份所对应的博文数目信息
+export function getDateCount() {
+    return  request({
+        method: 'post',
+        url: '/api/dateCount'
+    })
+}
+
+//获取指定分类的博客内容
+export function getLabelBlog(targetPage, pageSize, labelName) {
+    return request({
+        method: 'post',
+        url: '/api/labelBlog',
+        data: {
+            targetPage,
+            pageSize,
+            labelName
+        }
+    })
+}
+
+//获取指定月份的博客内容
+export function getDateBlog(targetPage, pageSize, year, month) {
+    return request({
+        method: 'post',
+        url: '/api/dateBlog',
+        data: {
+            targetPage,
+            pageSize,
+            year,
+            month
+        }
+    })
+}

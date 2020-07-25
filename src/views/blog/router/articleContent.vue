@@ -112,7 +112,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
       color: #4e4e4e;
     }
     .article-info {
-      margin-top: 40px;
+      margin-top: 20px;
       span {
         margin-left: 8px;
         i {

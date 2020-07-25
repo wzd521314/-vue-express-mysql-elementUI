@@ -98,7 +98,6 @@ methods: {
       let blog = result.data.data
       this.total = blog[1][0].count
       blog[0].forEach(element => {
-        console.log(element)
         element.article_content = marked(element.article_content)
       }) 
       
@@ -116,7 +115,6 @@ created() {
         element.article_content = marked(element.article_content)
       })
     this.blogData = blog[0]
-    console.log(this.blogData)
   })
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
