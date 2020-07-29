@@ -91,12 +91,12 @@ methods: {
           console.log(userInfo)
           if(userInfo.errno === 0 ) {
             //说明登录验证成功
-            alert(`用户名： ${userInfo.data.nickname}, 权限级别为：${userInfo.data.priority}`)
+            localStorage.setItem("userToken", userInfo.message)
+            this.$router.push({name: 'Home'})
           }else {
             alert(userInfo.message)
           }
         })
-
       } else {
         console.log('error submit!!');
         return false;

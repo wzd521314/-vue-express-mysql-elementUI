@@ -8,6 +8,7 @@
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
+import {checkToken} from 'network/users.js'
 import content1 from 'components/content/Content.vue'
 export default {
 //import引入的组件需要注入到对象中才能使用
@@ -26,11 +27,16 @@ computed: {},
 watch: {},
 //方法集合
 methods: {
-
+  //首页鉴权
+  async login() {
+    console.log(1)
+    const res = await checkToken()
+    this.$message(`访问人的名字是：${res.data.nickname} 权限级别为：${res.data.priority}`)    
+  }
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
-
+    this.login()
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {

@@ -1,4 +1,4 @@
-import {request} from 'network/request.js'
+import {request, requestToken} from 'network/request.js'
 
 //提交注册信息
 export function handleRegister ({nickname , username , password}) {
@@ -22,5 +22,12 @@ export function handleLogin ({username, password}) {
       username,
       password
     }
+  })
+}
+
+export function checkToken () {
+  return requestToken ({
+    method: 'post',
+    url: '/users/token',
   })
 }

@@ -5,16 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    blog: {
-      
-    },
-
-    blogDetail: {
-      
-    }
+    isLogin: false,
+    currentUsername: null,
   },
   mutations: {
     
+
+
   },
   actions: {
   },
