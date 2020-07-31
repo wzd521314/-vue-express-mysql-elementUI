@@ -92,7 +92,7 @@ methods: {
           if(userInfo.errno === 0 ) {
             //说明登录验证成功
             localStorage.setItem("userToken", userInfo.message)
-            this.$router.push({name: 'Home'})
+            this.$router.go(-1)
           }else {
             alert(userInfo.message)
           }

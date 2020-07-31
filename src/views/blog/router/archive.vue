@@ -1,30 +1,34 @@
 <!--  -->
 <template>
-<div class='categories'>
-  <div class="content">
-    <div class="aside">
-      <categories-aside :labelInfo="labelInfo" @labelClick="getLabelBlog"></categories-aside>
-    </div>
-    <div class="main">
-      <time-line :blogList="dealedBlogList"  :totalCount="total"></time-line>
-      <div class="pagination">
-        <el-pagination
-        background
-        :current-page= 'blog.currentPage'
-        :page-size= "blog.pageSize"
-        :total= "blog.totalItem"
-        layout="prev, pager, next"
-        @current-change="handleCurrentChange">
-        </el-pagination>  
+<div class="cat">
+  <head1></head1>
+  <div class='categories'>
+    <div class="content">
+      <div class="aside">
+        <categories-aside :labelInfo="labelInfo" @labelClick="getLabelBlog"></categories-aside>
+      </div>
+      <div class="main">
+        <time-line :blogList="dealedBlogList"  :totalCount="total"></time-line>
+        <div class="pagination">
+          <el-pagination
+          background
+          :current-page= 'blog.currentPage'
+          :page-size= "blog.pageSize"
+          :total= "blog.totalItem"
+          layout="prev, pager, next"
+          @current-change="handleCurrentChange">
+          </el-pagination>  
+        </div>
       </div>
     </div>
-  </div>
+  </div>  
 </div>
 </template>
 
 <script>
 import timeLine from 'components/common/timeLine1.vue'
 import categoriesAside from 'components/common/categoriesAside1.vue'
+import head1 from 'components/content/Head.vue'
 
 import {postPageData, getDateCount, getDateBlog} from 'network/home.js'
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
@@ -34,7 +38,8 @@ export default {
 //import引入的组件需要注入到对象中才能使用
 components: {
   timeLine,
-  categoriesAside
+  categoriesAside,
+  head1
 },
 
 data() {

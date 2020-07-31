@@ -1,6 +1,7 @@
 <!--  -->
 <template>
 <div class='home'>
+  <head1></head1>
   <content1></content1>
 </div>
 </template>
@@ -10,10 +11,13 @@
 //例如：import 《组件名称》 from '《组件路径》';
 import {checkToken} from 'network/users.js'
 import content1 from 'components/content/Content.vue'
+import head1 from 'components/content/Head.vue'
+
 export default {
 //import引入的组件需要注入到对象中才能使用
 components: {
-  content1
+  content1,
+  head1
 },
 data() {
 //这里存放数据
@@ -28,19 +32,14 @@ watch: {},
 //方法集合
 methods: {
   //首页鉴权
-  async login() {
-    console.log(1)
-    const res = await checkToken()
-    this.$message(`访问人的名字是：${res.data.nickname} 权限级别为：${res.data.priority}`)    
-  }
+  
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
-    this.login()
+
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {
-
 },
 beforeCreate() {}, //生命周期 - 创建之前
 beforeMount() {}, //生命周期 - 挂载之前

@@ -1,6 +1,7 @@
 <!--  -->
 <template>
 <div class='content' ref="content">
+  <head1></head1>
   <div class="article">
     <div class="article-top">
       <h1>{{articleContent.article_title}}</h1>
@@ -15,7 +16,11 @@
     <div class="article-footer">
       <div class="endButton">完</div>
     </div>
+
+    <comment></comment>
   </div>
+
+
 </div>
 </template>
 
@@ -27,9 +32,10 @@ import {getBlogDetails} from 'network/home.js'
 import marked from 'marked'
 import hljs from "highlight.js";
 import 'highlight.js/styles/monokai-sublime.css';
+import head1 from 'components/content/Head.vue'
 
 import {markdownToc} from 'utils/markdown-toc.js'
-
+import comment from 'components/common/comment.vue'
 marked.setOptions({
   renderer: new marked.Renderer(),
   highlight: function(code) {
@@ -48,7 +54,10 @@ marked.setOptions({
 
 export default {
 //import引入的组件需要注入到对象中才能使用
-components: {},
+components: {
+  head1,
+  comment
+},
 data() {
 //这里存放数据
 return {
@@ -101,10 +110,10 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
 .article {
-  width: calc(100% - 700px);
+  width: 750px;
   margin: 0 auto;
   .article-top {
-    margin-top: 80px;
+    margin-top: 60px;
     text-align: center;
     h1 {
       font-size: 28px;

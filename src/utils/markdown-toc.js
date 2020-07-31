@@ -85,7 +85,6 @@ export function markdownToc(selector) {
     //   }
     // }
 
-    console.log(document.documentElement.scrollTop);
     
   }
   

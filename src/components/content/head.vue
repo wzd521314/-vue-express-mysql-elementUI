@@ -27,9 +27,22 @@
     <input type="text" name="" id="" class="nav-search" placeholder="想找点什么？">
     <i slot="icon" class="fa fa-search" aria-hidden="true"></i>
   </div>
-  <div class="author">
+  <div class="author" v-if="isLogin">
     <el-button type="primary" size="small" @click="loginClick">登录</el-button>
     <el-button type="primary" size="small" @click="registerClick">注册</el-button>
+  </div>
+  <div class="author username" v-else>
+    <el-dropdown @command="handleCommand">
+      <div>
+        <span>{{username}}</span>
+        <span><i class="el-icon-caret-bottom"></i></span>
+      </div>  
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="a" icon="el-icon-edit">新建博客</el-dropdown-item>
+        <el-dropdown-item command="b" icon="el-icon-user-solid">用户中心</el-dropdown-item>
+        <el-dropdown-item command="c" icon="el-icon-switch-button">退出登录</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
   </div>
 </div>
 </template>
@@ -48,7 +61,14 @@ return {
 };
 },
 //监听属性 类似于data概念
-computed: {},
+computed: {
+  isLogin() {
+    return !this.$store.state.isLogin
+  },
+  username() {
+    return this.$store.state.currentUsername
+  }
+},
 //监控data中的数据变化
 watch: {},
 //方法集合
@@ -74,6 +94,20 @@ methods: {
     this.$router.push({
       name: 'Register'
     })
+  },
+
+  handleCommand(command) {
+    switch(command) {
+      case "a" :
+        break
+      case "b" :
+        break
+      case "c" :
+        console.log(1)
+        localStorage.removeItem('userToken')
+        this.$router.go(0)
+        break
+    }
   }
   
 },
@@ -179,7 +213,15 @@ $text-color: #666;
     float: right;
     margin-right: 10px;
     align-items: center;
+    span {
+      color:#1b6d85;
+      cursor: pointer;
+    }
   }
+  .username {
+    padding: 7px 14px;
+  }
+  
 }
 
 </style>

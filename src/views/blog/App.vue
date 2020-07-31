@@ -1,6 +1,5 @@
 <template>
   <div id="blog">
-    <head1></head1>
     <router-view></router-view>
     <footer>
     </footer>
@@ -49,6 +48,7 @@ html, body {
   height: 100%;
   line-height: 1.6;
   font-weight: 400;
+  color: #333;
   font-size: 14px;
   font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
 }
