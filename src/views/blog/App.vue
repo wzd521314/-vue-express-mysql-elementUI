@@ -28,10 +28,8 @@ return {
 
 watch: {
   '$route': function(to ,from) {
-    console.log(2)
     if(to.path === from.path) {
       this.$router.go(0)
-      console.log(1)
     }
     
     

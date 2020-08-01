@@ -13,7 +13,9 @@
     <el-button type="primary" size="medium" round class="commentButton" @click="submitComment">发表评论</el-button>
   </div>
 
-  <div class="comment-content" v-show="isShow">
+  <div v-if="this.commentCounts === 0" style="background: #f0f0f0; text-align: center; opacity: .5; margin: 70px 50px 0;height: 30px;"><span style="line-height: 30px;font-size: 14px;">求求你了，来一条评论吧。。。</span></div>
+
+  <div class="comment-content" v-else>
     <div class="content-top">
       <span class="comment-word">评论</span>
       <div class="comment-line"></div>
@@ -50,7 +52,7 @@
                 <hr>
                 <div class="reply-submit" v-show="element.isInput">
                   <textarea class="reply-textarea" placeholder="想对他/她说些什么呢～" v-model='element.submitContent'> </textarea>
-                  <el-button type="success" size="small"  @click="submitReply(item, element)">发表</el-button>
+                  <el-button type="success" size="small"  @click="submitReply(item, index, element)">发表</el-button>
                   <el-button type="danger" size="small" @click="element.isInput = false; item.submitContent = ''">取消</el-button>
                 </div>
               </div>
@@ -63,7 +65,7 @@
 
               <div class="reply-submit" v-show="item.isInput">
                 <textarea class="reply-textarea" placeholder="发表下你的见解吧～" v-model="item.submitContent"></textarea>
-                <el-button type="success" size="small"  @click="submitReply(item)">发表</el-button>
+                <el-button type="success" size="small"  @click="submitReply(item, index)">发表</el-button>
                 <el-button type="danger" size="small" @click="item.isInput = false; item.submitContent = ''">取消</el-button>
               </div>
               
@@ -140,33 +142,83 @@ methods: {
     this.isReply = true
   },
   //点击二级评论的回复按钮
-  replyButton(item, element){
-    item.isInput = false;
-    for(let i of item.reply) {
-      i.isInput = false
+  replyButton(item,  element){
+    if(!this.isLogin) {
+      item.isInput = false;
+      for(let i of item.reply) {
+        i.isInput = false
+      }
+      element.isInput = true
+
+    }else {
+      this.$router.push({name: 'Login'})
     }
-    element.isInput = true
   },
   //提交评论
   async submitComment() {
-    if(!this.commentSubmit.commentContent) {
-      this.$message('总点写点什么吧～')
-    }
+    
 
     if(!this.isLogin) {
-
+      if(!this.commentSubmit.commentContent) {
+        this.$message('总点写点什么吧～')
+        return false
+      }
+      
       this.commentSubmit.commentDate = formatDateTime(Date.now())
       let res = await submitComment(this.commentSubmit)
-      this.dealComment()
+      
+      if(res.data.errno === 0 ) {
+        //当回复成功时，我们要动态地将刚刚回复的那条信息更新在页面上
+        let newData = {}
+        //这是数据库返回过来的你新插入的ID
+        newData.commentId = res.data.data
+        //内容不用多说，就是你刚刚传到数据库的内容
+        newData.content = this.commentSubmit.commentContent 
+        //一级评论的楼层
+        newData.floor = this.commentData.length + 1
+        //默认都是false
+        newData.isInput = false
+        //父一级评论的id
+        newData.pid = 0
+        //一级评论的回复都是空
+        newData.reply = []
+        //提交的评论内容也要初始化
+        newData.submitContent = ''
+        //提交的时间也是你刚刚提交的那个
+        newData.submitDate = this.commentSubmit.commentDate
+        //对谁说的是你评论的这条回复的主人 因为这里是一级评论，所以不需要toName
+        newData.toName =  null
+        //userId则是你自己
+        newData.userId = this.$store.state.currentUserId
+        //username也是你自己的name
+        newData.username = this.$store.state.currentUsername
+
+        
+        //然后将这条内容添加到评论区内容的第一条
+        this.commentData.unshift(newData)
+        //刷新后将评论框内容清空
+        this.commentSubmit.commentContent = ''
+        this.commentCounts += 1
+        
+        
+
+      }else {
+        alert('评论失败')
+      }
+
+
+
+
+    }else {
+      this.$router.push({name: 'Login'})
     }
   },
 
   //提交回复
-  async submitReply(item, element) {
+  async submitReply(item, index, element) {
     let reply1 = {}
     if(!this.isLogin) {
-      console.log(item);
-
+      
       if(element) {
         
         if(!element.submitContent) {
@@ -174,59 +226,129 @@ methods: {
           this.$message('总点写点什么吧～')
           return false
         }
-        
+
+
+        //这里是传给数据库的数据格式部分
         reply1.submitDate = formatDateTime(Date.now())
         reply1.content = element.submitContent
         reply1.fromId = this.$store.state.currentUserId
         reply1.toId = element.userId
-        reply1.toName = element.userName
         reply1.pid = item.commentId
-        reply1.userId = this.$store.state.currentUserId
-        reply1.username = this.$store.state.currentUsername
         reply1.articleId = this.$route.query.id
+
+
+        let res = await submitReply(reply1)
+        element.submitContent = ''
+        if(res.data.errno === 0 ) {
+          //当回复成功时，我们要动态地将刚刚回复的那条信息更新在页面上
+          let newData = {}
+          //这是数据库返回过来的你新插入的ID
+          newData.commentId = res.data.data
+          //内容不用多说，就是你刚刚传到数据库的内容
+          newData.content = reply1.content 
+          //因为是二级回复，所有没有楼层
+          newData.floor = null
+          //默认都是false
+          newData.isInput = false
+          //父一级评论的id
+          newData.pid = item.commentId
+          //二级评论的回复都是空
+          newData.reply = []
+          //提交的评论内容也要初始化
+          newData.submitContent = ''
+          //提交的时间也是你刚刚提交的那个
+          newData.submitDate = reply1.submitDate
+          //对谁说的是你评论的这条回复的主人
+          newData.toName = element.username
+          //userId则是你自己
+          newData.userId = this.$store.state.currentUserId
+          //username也是你自己的name
+          newData.username = this.$store.state.currentUsername
+
+          
+          element.isInput = false
+          item.reply.push(newData)
+          this.commentCounts += 1
+
+        }else {
+          alert('评论失败')
+        }
       }else {
         if(!item.submitContent) {
           item.isInput = false
           this.$message('总点写点什么吧～')
           return false
         }
+        //这里是传给数据库的格式部分
         reply1.submitDate = formatDateTime(Date.now())
         reply1.content = item.submitContent
         reply1.fromId = this.$store.state.currentUserId
         reply1.toId = item.userId
         reply1.pid = item.commentId
         reply1.articleId = this.$route.query.id
+
+        let res = await submitReply(reply1)
+        item.submitContent = ''
+        if(res.data.errno === 0 ) {
+          let newData = {}
+          //这是数据库返回过来的你新插入的ID
+          newData.commentId = res.data.data
+          //内容不用多说，就是你刚刚传到数据库的内容
+          newData.content = reply1.content 
+          //因为是二级回复，所有没有楼层
+          newData.floor = null
+          //默认都是false
+          newData.isInput = false
+          //父一级评论的id
+          newData.pid = item.commentId
+          //二级评论的回复都是空
+          newData.reply = []
+          //提交的评论内容也要初始化
+          newData.submitContent = ''
+          //提交的时间也是你刚刚提交的那个
+          newData.submitDate = reply1.submitDate
+          //对谁说的是你评论的这条回复的主人
+          newData.toName = item.username
+          //userId则是你自己
+          newData.userId = this.$store.state.currentUserId
+          //username也是你自己的name
+          newData.username = this.$store.state.currentUsername
+
+          item.isInput = false
+          item.reply.push(newData)
+          this.commentCounts += 1
+
+        }else {
+          alert('评论失败')
+        }
       }
       
       
       
     }
     
-    let res = await submitReply(reply1)
-    
-    if(res.data.errno === 0 ) {
-      this.dealComment()
-    }else {
-      alert('评论失败')
-    }
+
     
 
   },
 
   //点击回复一级评论按钮
   commentClick(item) {
-    console.log(item);
-    for(let i of item.reply) {
-      i.isInput = false
+    
+    if(!this.isLogin) {
+      for(let i of item.reply) {
+        i.isInput = false
+      }
+      item.isInput = true
+    }else {
+      this.$router.push({name: 'Login'})
     }
-    item.isInput = true
     
   },
   
 
   //获取评论信息并对齐进行处理
   async dealComment() {
-    this.isShow = false
     this.commentSubmit.commentContent = ''
     this.commentData = []
     this.commentId = []
@@ -246,7 +368,7 @@ methods: {
         commentId: null,
         submitContent: '',
         toName: null,
-        pid: null,
+        pid: 0,
         reply: []
       };
       if(commentData[i].pid === 0) {
@@ -275,8 +397,6 @@ methods: {
         //这里是二级评论/回复数据的处理
       }
     }
-    this.isShow = true
-    console.log(this.commentData);
     
 
      
