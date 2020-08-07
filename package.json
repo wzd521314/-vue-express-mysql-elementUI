@@ -12,6 +12,7 @@
     "element-ui": "^2.13.1",
     "font-awesome": "^4.7.0",
     "highlight.js": "^10.0.2",
+    "lib-flexible": "^0.3.2",
     "marked": "^1.0.0",
     "mavon-editor": "^2.8.3",
     "vue": "^2.6.11",
@@ -22,6 +23,7 @@
     "@vue/cli-plugin-babel": "^4.2.0",
     "@vue/cli-service": "^4.2.0",
     "node-sass": "^4.13.1",
+    "postcss-pxtorem": "^5.1.1",
     "sass-loader": "^8.0.2",
     "true-case-path": "^2.2.1",
     "vue-template-compiler": "^2.6.11"

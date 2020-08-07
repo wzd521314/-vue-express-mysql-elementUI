@@ -14,6 +14,8 @@ export function markdownToc(selector) {
     if(nodeExp.test(node.nodeName)) {
       //初始化一个对象，用它来保存所有的H开头的节点的节点本身、对应的目录名称、以及提取H后面的数字来进行目录的分级
       let nodeInfo = {}
+      console.log(node.offsetTop);
+      
       nodeInfo.nodeObject = node;
       nodeInfo.content = node.innerText;
       nodeInfo.level = [...node.nodeName][1] * 1
@@ -22,6 +24,8 @@ export function markdownToc(selector) {
       nodeList.push(nodeInfo)
     }
   }
+  console.log(nodeList);
+  
   
   //根据NodeList的内容自动生成节点列表
   let Toc = document.createElement('div')
@@ -74,6 +78,7 @@ export function markdownToc(selector) {
     for(let i =0; i<[...Toc.childNodes].length; i++) {
       
       if(document.documentElement.scrollTop > nodeList[i].topDistance - 2) {
+        console.log(1)
         toggleClass(Toc.childNodes,Toc.childNodes[i],'currentToc')
       }
     }

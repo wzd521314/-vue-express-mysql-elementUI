@@ -123,3 +123,27 @@ export function getDateBlog(targetPage, pageSize, year, month) {
         }
     })
 }
+
+//获取最新5条评论
+export function getNewComment(currentPage, size) {
+    return request({
+        method: 'post',
+        url: '/api/newComment',
+        data: {
+            currentPage,
+            size
+        }
+    })
+}
+
+//获取最新5条留言
+export function getNewMessage(currentPage, size) {
+    return request({
+        method: 'post',
+        url: '/api/newMessage',
+        data: {
+            currentPage,
+            size
+        }
+    })
+}

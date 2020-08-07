@@ -2,25 +2,29 @@
 <template>
 <div class='content' ref="content">
   <head1></head1>
-  <div class="article">
-    <div class="article-top">
-      <h1>{{articleContent.article_title}}</h1>
-      <div class="article-info">
-        <span><i class="fa fa-clock-o" aria-hidden="true"></i><i> {{articleContent.article_date}}</i></span>
-        <span><i class="fa fa-user" aria-hidden="true"></i><i> {{articleContent.user_nickname}}</i></span>
-        <span><i class="fa fa-folder-open-o" aria-hidden="true"></i><i> {{articleContent.label_name}}</i></span>
+  <el-row type="flex" justify="center">
+    <el-col :sm="22" :md="20" :lg="16" class="article">
+      <div  v-show="isShow">
+        <div class="article-top">
+          <h1>{{articleContent.article_title}}</h1>
+          <div class="article-info">
+            <span><i class="fa fa-clock-o" aria-hidden="true"></i><i> {{articleContent.article_date}}</i></span>
+            <span><i class="fa fa-user" aria-hidden="true"></i><i> {{articleContent.user_nickname}}</i></span>
+            <span><i class="fa fa-folder-open-o" aria-hidden="true"></i><i> {{articleContent.label_name}}</i></span>
+          </div>
+          <div class="article-say">愿自己永远年轻，永远保持热泪盈眶，永远在路上 <span>--- Mr.Wan</span></div>
+        </div>
+        <div class="article-content"><div  class="highLight markdown-body" v-html="articleContent.article_content"></div></div>
+        <div class="article-footer">
+          <div class="endButton">完</div>
+        </div>
+
+        <comment></comment>
       </div>
-      <div class="article-say">愿自己永远年轻，永远保持热泪盈眶，永远在路上 <span>--- Mr.Wan</span></div>
-    </div>
-    <div class="article-content"><div  class="highLight markdown-body" v-html="articleContent.article_content"></div></div>
-    <div class="article-footer">
-      <div class="endButton">完</div>
-    </div>
+    </el-col>
+  </el-row>
 
-    <comment></comment>
-  </div>
-
-
+  <copyright></copyright>
 </div>
 </template>
 
@@ -33,6 +37,7 @@ import marked from 'marked'
 import hljs from "highlight.js";
 import 'highlight.js/styles/monokai-sublime.css';
 import head1 from 'components/content/Head.vue'
+import copyright from 'components/common/copyright.vue'
 
 import {markdownToc} from 'utils/markdown-toc.js'
 import comment from 'components/common/comment.vue'
@@ -56,12 +61,15 @@ export default {
 //import引入的组件需要注入到对象中才能使用
 components: {
   head1,
-  comment
+  comment,
+  copyright
 },
 data() {
 //这里存放数据
 return {
-  articleContent: {}
+  articleContent: {},
+
+  isShow: false
 };
 },
 //监听属性 类似于data概念
@@ -85,9 +93,11 @@ created() {
   }).then(() => {
     //待获取到数据后
     
-    this.$refs.content.appendChild(markdownToc('.markdown-body'))
     
     
+    this.$nextTick(() => {
+      this.isShow = true
+    })
   })
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
@@ -110,8 +120,8 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
 .article {
-  width: 750px;
-  margin: 0 auto;
+  max-width: 1000px;
+  padding: 0 10px;
   .article-top {
     margin-top: 60px;
     text-align: center;
@@ -131,6 +141,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
       }
     }
     .article-say {
+      overflow: hidden;
       border-left: solid 2px #992c12;
       margin-top: 30px;
       text-align: left;
@@ -149,7 +160,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
     text-align: left;
     font-size: 14px;
     line-height: 1.6;
-    padding: 20px;
+    padding: 10px;
     overflow: auto;
     width: 100%;
     

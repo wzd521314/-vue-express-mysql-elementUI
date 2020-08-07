@@ -4,7 +4,7 @@
   <div class="head"></div>
   <div class="picture"><img src="~assets/img/picture.jpg" alt=""></div>
   <span class="name"><slot name="name" class="test">萌萌哒的酷狗君</slot></span>
-  <p class="person-description">一个努力找实习的前端小菜鸡~</p>
+  <p class="person-description">一个臭写代码的~</p>
   <card-case class="card-case"></card-case>
 </div>
 </template>
@@ -89,7 +89,7 @@ return {
   text-align: center;
   background-color: #fff;
   border: 1px solid silver;
-  box-shadow: 0 2px 5px 0 rgba(33, 22, 22, 0.2), 0 2px 10px 0 rgba(0,0,0,0.12);  border-radius: 7px;
+  box-shadow: 0 2px 5px 0 rgba(33, 22, 22, 0.2), 0 2px 10px 0 rgba(0,0,0,0.12);  
 }
 
 .person-card img{

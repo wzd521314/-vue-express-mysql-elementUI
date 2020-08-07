@@ -2,26 +2,34 @@
 <template>
 <div class="cat">
   <head1></head1>
-  <div class='categories'>
-    <div class="content">
+  <el-row  type="flex" justify="center"    class="archive">
+    <el-col :lg="4" :md="5" :sm="6" :xs="24" style="margin-bottom: 30px">
       <div class="aside">
         <categories-aside :labelInfo="labelInfo" @labelClick="getLabelBlog"></categories-aside>
       </div>
+    </el-col>
+    <el-col :lg="12" :md="13" :sm="14" :xs="24">
       <div class="main">
         <time-line :blogList="dealedBlogList"  :totalCount="total"></time-line>
-        <div class="pagination">
-          <el-pagination
-          background
-          :current-page= 'blog.currentPage'
-          :page-size= "blog.pageSize"
-          :total= "blog.totalItem"
-          layout="prev, pager, next"
-          @current-change="handleCurrentChange">
-          </el-pagination>  
-        </div>
       </div>
-    </div>
-  </div>  
+    </el-col>
+  </el-row>
+
+  <el-row type="flex" justify="center" >
+    <el-col>
+        <el-pagination
+        class="pagination"
+        background
+        :pager-count="5"
+        :current-page= 'blog.currentPage'
+        :page-size= "blog.pageSize"
+        :total= "blog.totalItem"
+        layout="prev, pager, next"
+        @current-change="handleCurrentChange">
+        </el-pagination>  
+    </el-col>
+  </el-row>
+  <copyright></copyright>
 </div>
 </template>
 
@@ -29,6 +37,7 @@
 import timeLine from 'components/common/timeLine1.vue'
 import categoriesAside from 'components/common/categoriesAside1.vue'
 import head1 from 'components/content/Head.vue'
+import copyright from 'components/common/copyright.vue'
 
 import {postPageData, getDateCount, getDateBlog} from 'network/home.js'
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
@@ -39,7 +48,8 @@ export default {
 components: {
   timeLine,
   categoriesAside,
-  head1
+  head1,
+  copyright
 },
 
 data() {
@@ -131,6 +141,8 @@ methods: {
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
+  console.log(1);
+  
   postPageData(this.blog.pageSize, this.blog.currentPage).then(result => {
       this.blog.list = []
       
@@ -142,6 +154,8 @@ created() {
   }),
   getDateCount().then(result => {
     this.labelInfo = result.data.data
+    console.log(2);
+    
   })
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
@@ -158,25 +172,18 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 </script>
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
-.categories {
-  width: 60%;
-  margin: 0 auto;
 
-  .content {
+
+  
+  
+  .archive {
+    padding: 20px 20px 0 20px;
+    flex-wrap: wrap;
+  }
+  .pagination {
     display: flex;
+    margin-top: 30px;
     justify-content: center;
-    margin-top: 70px;
-    .aside {
-      width: 25%;
-    }
-    .main {
-      width: 75%;
-      .pagination {
-        display: flex;
-        justify-content: center;
-        margin: 30px 0;
-      }
-  }
-  }
-}
+  }  
+
 </style>

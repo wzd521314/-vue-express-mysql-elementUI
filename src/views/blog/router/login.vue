@@ -1,6 +1,7 @@
 <!--  -->
 <template>
 <div class='login'>
+  <head1></head1>
   <header>
     仰天大笑出门去
     <br>
@@ -30,6 +31,7 @@
       </el-form>
     </div>
   </div>
+  <copyright></copyright>
 </div>
 </template>
 
@@ -37,9 +39,15 @@
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
 import {handleLogin} from 'network/users.js'
+import copyright from 'components/common/copyright.vue'
+import head1 from 'components/content/Head.vue'
+
 export default {
 //import引入的组件需要注入到对象中才能使用
-components: {},
+components: {
+  copyright,
+  head1
+},
 data() {
 //这里存放数据
 return {
@@ -92,7 +100,15 @@ methods: {
           if(userInfo.errno === 0 ) {
             //说明登录验证成功
             localStorage.setItem("userToken", userInfo.message)
-            this.$router.go(-1)
+            console.log(this.$route.params.from);
+            if(this.$route.params.from === 'comment') {
+              this.$router.go(-1)
+            }else {
+              this.$router.push({
+              name: 'Home'
+              })
+            }
+            
           }else {
             alert(userInfo.message)
           }
@@ -148,7 +164,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
     margin: 20px 0;
   }
   .login-box {
-    width: 700px;
+    max-width: 700px;
     margin: 0 auto;
     h3 {
       color: #333;

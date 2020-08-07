@@ -1,8 +1,7 @@
 <template>
   <div id="blog">
     <router-view></router-view>
-    <footer>
-    </footer>
+    
   </div>
 </template>
 <script>
@@ -44,11 +43,23 @@ watch: {
 html, body {
   width: 100%;
   height: 100%;
-  line-height: 1.6;
   font-weight: 400;
+  font-size: 75px;
   color: #333;
-  font-size: 14px;
+  line-height: 1.6;
   font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
+}
+i {
+  font-size: 14px;
+}
+
+div {
+  font-size: 14px;
+  word-break: break-word;
+}
+
+a {
+  cursor: pointer;
 }
 
 
@@ -98,6 +109,10 @@ html, body {
 </style>
 
 <style lang='scss' scoped>
-
+#blog {
+  position: relative;
+  min-height: 100%;
+  padding-bottom: 150px;
+}
 
 </style>

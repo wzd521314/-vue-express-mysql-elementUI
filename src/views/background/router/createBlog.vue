@@ -129,13 +129,15 @@ methods: {
    
   submitForm(formName) {
     this.$refs[formName].validate((valid) => {
-      console.log(valid)
       if (valid) {
         postBlogData(this.blog.title, this.blog.tag, this.blog.content).then(() => {
+          console.log(this.blog.tag);
+          console.log(this.tagLists);
+          
+          
           alert('新建博客成功')
         })
         
-        alert('submit!');
       } else {
         console.log('error submit!!');
         return false;

@@ -75,7 +75,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
     margin: 25px 0 0 15px;
 
     .tagItem {
-      font-size: 16px;
+      font-size: 16Px;
       margin-top: 6px;
       overflow: hidden;
       line-height: 1.5;

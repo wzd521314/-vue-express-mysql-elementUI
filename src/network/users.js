@@ -49,12 +49,33 @@ export function submitComment (commentData) {
   })
 }
 
+//提交一级留言信息
+export function submitMessage (commentData) {
+  return requestToken ({
+    method: 'post',
+    url: '/users/submitMessage',
+    data: {
+      commentData
+    }
+  })
+}
+
 
 //提交回复信息
 export function submitReply (replyData) {
   return requestToken ({
     method: 'post',
     url: '/users/submitReply',
+    data: {
+      replyData
+    }
+  })
+}
+//提交留言回复信息
+export function submitMessageReply (replyData) {
+  return requestToken ({
+    method: 'post',
+    url: '/users/submitMessageReply',
     data: {
       replyData
     }
@@ -70,5 +91,14 @@ export function getComment (articleId) {
     data: {
       articleId
     }
+  })
+}
+
+//获取留言信息
+export function getMessage () {
+  return request ({
+    method: 'post',
+    url: '/users/getMessage',
+    
   })
 }

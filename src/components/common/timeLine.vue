@@ -5,22 +5,18 @@
     <span class="node">
       <i class="el-icon-folder-opened"></i>
     </span>
-    <h1 class="title"># 很好！目前总计<span>{{totalCount}}</span>篇日志，继续加油！</h1>
+    <h1 class="title"># {{currentTag}}</h1>
   </div>
-  <div v-for="item in blogList" :key="item.year">
-    <div class="time-line-row-major">
-      <span class="node"></span>
-      <div class="nodeYear">{{item.year}}年</div>
-    </div>
-    <div class="time-line-row-major" v-for="element in item.data" :key="element.article_id">
+  <div>
+    <div class="time-line-row-major" v-for="item in blogList" :key="item.article_id">
       <span class="node"></span>
       <div class="content">
-        <div class="content_title">
-        <a @click="$router.push({name: 'articleContent', query: {id: element.article_id}})">{{element.article_title}}</a>
+        <div class="content_title" @click="$router.push({name: 'articleContent', query: {id: item.article_id}})">
+        <a>{{item.article_title}}</a>
         </div>
         <div class="icon-items">
-          <i class="fa fa-calendar" aria-hidden="true"> {{element.article_date}}</i>
-          <i class="fa fa-folder-open-o" aria-hidden="true"> {{element.label_name}}</i>
+          <i class="fa fa-calendar" aria-hidden="true"> {{item.article_date}}</i>
+          <i class="fa fa-folder-open-o" aria-hidden="true"> {{item.label_name}}</i>
         </div>
       </div>
   </div>
@@ -43,14 +39,11 @@ props: {
       return []
     }
   },
-  currentLabel: {
+  currentTag: {
     type: String,
-    default: '全部分类'
-  },
-  totalCount: {
-    type: Number,
-    default: null
   }
+  
+  
 },
 data() {
 //这里存放数据
@@ -59,7 +52,8 @@ return {
 };
 },
 //监听属性 类似于data概念
-computed: {},
+computed: {
+},
 //监控data中的数据变化
 watch: {},
 
@@ -70,7 +64,7 @@ methods: {
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
-
+  
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {
@@ -118,11 +112,6 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
       margin: 0 0 0 10px;
       color: #555;
       font-weight: 500;
-      span {
-        font-size: 22px;
-        color: #555;
-        padding: 0 2px 0;
-      }
     }
   }
   .time-line-row-major {

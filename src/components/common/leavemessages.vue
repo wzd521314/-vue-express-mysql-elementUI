@@ -4,25 +4,25 @@
   <div class="comment-top">
     <div class="comment-input">
       <div class="toLogin" v-if="isLogin">
-        <a @click="$router.push({name: 'Login'})">登录</a>后才可以发表评论哦。。。
+        <a @click="$router.push({name: 'Login'})">登录</a>后才可以发表留言哦。。。
       </div>
       <div class="toComment" v-else>
         <textarea placeholder="想说点什么呢～" v-model="commentSubmit.commentContent"></textarea>
       </div>
     </div>
-    <el-button type="primary" size="medium" round class="commentButton" @click="submitComment">发表评论</el-button>
+    <el-button type="primary" size="medium" round class="commentButton" @click="submitComment">发表</el-button>
   </div>
 
-  <div v-if="this.commentCounts === 0" style="background: #f0f0f0; text-align: center; opacity: .5; margin: 70px 0 0;height: 30px;"><span style="line-height: 30px;font-size: 14px;">求求你了，来一条评论吧。。。</span></div>
+  <div v-if="this.commentCounts === 0" style="background: #f0f0f0; text-align: center; opacity: .5; margin: 70px 0 0;height: 30px;"><span style="line-height: 30px;font-size: 14px;">求求你了，来一条留言吧。。。</span></div>
 
   <div class="comment-content" v-else>
     <div class="content-top">
-      <span class="comment-word">评论</span>
+      <span class="comment-word">留言</span>
       <div class="comment-line"></div>
     </div>
     <div class="comment-info">
       <i class="el-icon-more"></i>
-      全部评论（{{commentCounts}}）
+      全部留言（{{commentCounts}}）
     </div>
 
     <div class="comment-body">
@@ -60,7 +60,7 @@
               
  
               <div class="more-reply" v-show="!item.isInput">
-                <a @click="commentClick(item)"> <i class="el-icon-edit-outline"></i> 添加新评论</a>
+                <a @click="commentClick(item)"> <i class="el-icon-edit-outline"></i> 添加新留言</a>
               </div>
 
               <div class="reply-submit" v-show="item.isInput">
@@ -83,7 +83,7 @@
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-import {submitComment, getComment, submitReply} from 'network/users.js'
+import {submitMessage, getMessage, submitMessageReply} from 'network/users.js'
 import {formatDateTime} from 'utils/utils.js'
 export default {
 //import引入的组件需要注入到对象中才能使用
@@ -93,13 +93,12 @@ data() {
 return {
   commentCounts: null,
 
-  //等待数据加载中，加载好了才显示评论区域
+  //等待数据加载中，加载好了才显示留言区域
   isShow: false,
 
 
-  //提交的评论数据模型
+  //提交的留言数据模型
   commentSubmit: {
-    articleId: this.$route.query.id,
     commentContent: '',
     answerId: this.$store.state.currentUserId,
     commentDate: null
@@ -109,7 +108,7 @@ return {
   //记录每层楼对应的id
   commentId: [],
   
-  //评论区数据集合
+  //留言区数据集合
   commentData: [],
 
  
@@ -141,7 +140,7 @@ methods: {
   toReply() {
     this.isReply = true
   },
-  //点击二级评论的回复按钮
+  //点击二级留言的回复按钮
   replyButton(item,  element){
     if(!this.isLogin) {
       item.isInput = false;
@@ -154,7 +153,7 @@ methods: {
       this.$router.push({name: 'Login'})
     }
   },
-  //提交评论
+  //提交留言
   async submitComment() {
     
 
@@ -165,7 +164,7 @@ methods: {
       }
       
       this.commentSubmit.commentDate = formatDateTime(Date.now())
-      let res = await submitComment(this.commentSubmit)
+      let res = await submitMessage(this.commentSubmit)
       
       if(res.data.errno === 0 ) {
         //当回复成功时，我们要动态地将刚刚回复的那条信息更新在页面上
@@ -174,19 +173,19 @@ methods: {
         newData.commentId = res.data.data
         //内容不用多说，就是你刚刚传到数据库的内容
         newData.content = this.commentSubmit.commentContent 
-        //一级评论的楼层
+        //一级留言的楼层
         newData.floor = this.commentData.length + 1
         //默认都是false
         newData.isInput = false
-        //父一级评论的id
+        //父一级留言的id
         newData.pid = 0
-        //一级评论的回复都是空
+        //一级留言的回复都是空
         newData.reply = []
-        //提交的评论内容也要初始化
+        //提交的留言内容也要初始化
         newData.submitContent = ''
         //提交的时间也是你刚刚提交的那个
         newData.submitDate = this.commentSubmit.commentDate
-        //对谁说的是你评论的这条回复的主人 因为这里是一级评论，所以不需要toName
+        //对谁说的是你留言的这条回复的主人 因为这里是一级留言，所以不需要toName
         newData.toName =  null
         //userId则是你自己
         newData.userId = this.$store.state.currentUserId
@@ -194,16 +193,16 @@ methods: {
         newData.username = this.$store.state.currentUsername
 
         
-        //然后将这条内容添加到评论区内容的第一条
+        //然后将这条内容添加到留言区内容的第一条
         this.commentData.unshift(newData)
-        //刷新后将评论框内容清空
+        //刷新后将留言框内容清空
         this.commentSubmit.commentContent = ''
         this.commentCounts += 1
         
         
 
       }else {
-        alert('评论失败')
+        alert('留言失败')
       }
 
 
@@ -234,10 +233,9 @@ methods: {
         reply1.fromId = this.$store.state.currentUserId
         reply1.toId = element.userId
         reply1.pid = item.commentId
-        reply1.articleId = this.$route.query.id
 
 
-        let res = await submitReply(reply1)
+        let res = await submitMessageReply(reply1)
         element.submitContent = ''
         if(res.data.errno === 0 ) {
           //当回复成功时，我们要动态地将刚刚回复的那条信息更新在页面上
@@ -250,15 +248,15 @@ methods: {
           newData.floor = null
           //默认都是false
           newData.isInput = false
-          //父一级评论的id
+          //父一级留言的id
           newData.pid = item.commentId
-          //二级评论的回复都是空
+          //二级留言的回复都是空
           newData.reply = []
-          //提交的评论内容也要初始化
+          //提交的留言内容也要初始化
           newData.submitContent = ''
           //提交的时间也是你刚刚提交的那个
           newData.submitDate = reply1.submitDate
-          //对谁说的是你评论的这条回复的主人
+          //对谁说的是你留言的这条回复的主人
           newData.toName = element.username
           //userId则是你自己
           newData.userId = this.$store.state.currentUserId
@@ -271,7 +269,7 @@ methods: {
           this.commentCounts += 1
 
         }else {
-          alert('评论失败')
+          alert('留言失败')
         }
       }else {
         if(!item.submitContent) {
@@ -285,9 +283,8 @@ methods: {
         reply1.fromId = this.$store.state.currentUserId
         reply1.toId = item.userId
         reply1.pid = item.commentId
-        reply1.articleId = this.$route.query.id
 
-        let res = await submitReply(reply1)
+        let res = await submitMessageReply(reply1)
         item.submitContent = ''
         if(res.data.errno === 0 ) {
           let newData = {}
@@ -299,15 +296,15 @@ methods: {
           newData.floor = null
           //默认都是false
           newData.isInput = false
-          //父一级评论的id
+          //父一级留言的id
           newData.pid = item.commentId
-          //二级评论的回复都是空
+          //二级留言的回复都是空
           newData.reply = []
-          //提交的评论内容也要初始化
+          //提交的留言内容也要初始化
           newData.submitContent = ''
           //提交的时间也是你刚刚提交的那个
           newData.submitDate = reply1.submitDate
-          //对谁说的是你评论的这条回复的主人
+          //对谁说的是你留言的这条回复的主人
           newData.toName = item.username
           //userId则是你自己
           newData.userId = this.$store.state.currentUserId
@@ -319,7 +316,7 @@ methods: {
           this.commentCounts += 1
 
         }else {
-          alert('评论失败')
+          alert('留言失败')
         }
       }
       
@@ -332,7 +329,7 @@ methods: {
 
   },
 
-  //点击回复一级评论按钮
+  //点击回复一级留言按钮
   commentClick(item) {
     
     if(!this.isLogin) {
@@ -347,17 +344,17 @@ methods: {
   },
   
 
-  //获取评论信息并对齐进行处理
+  //获取留言信息并对齐进行处理
   async dealComment() {
     this.commentSubmit.commentContent = ''
     this.commentData = []
     this.commentId = []
-    let res = await getComment(this.$route.query.id)
+    let res = await getMessage(this.$route.query.id)
     let commentData = res.data.data
     this.commentCounts = commentData.length
     
     for(let i = 0; i<commentData.length; i++) {
-      //根据pid来确定一级评论，一级评论的pid为0
+      //根据pid来确定一级留言，一级留言的pid为0
       let commentItem = {
         username: '',
         userId: null,
@@ -394,7 +391,7 @@ methods: {
         commentItem.pid = commentData[i].pid
 
         this.commentData[index].reply.push(commentItem)
-        //这里是二级评论/回复数据的处理
+        //这里是二级留言/回复数据的处理
       }
     }
     

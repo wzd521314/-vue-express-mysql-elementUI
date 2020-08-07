@@ -42,7 +42,6 @@ export function requestToken(config) {
         
         return response
     }, (error) => {
-        console.log(error.response);
         let status = error.response.status
         let errno = error.response.data.errno
         //如果token过期或者验证失败，则清除掉本地的token

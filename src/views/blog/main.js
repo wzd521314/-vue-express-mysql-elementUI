@@ -1,16 +1,16 @@
 import Vue from 'vue'
+
 import App from 'blog/App.vue'
 import router from './router'
 import store from './store'
 //import router from 'blog/router/index.js'
 import 'font-awesome/css/font-awesome.css'
-
+import 'element-ui/lib/theme-chalk/display.css';
 import {checkToken} from 'network/users.js'
 
 
 router.beforeEach(async function (to, from ,next) {
     let res = await checkToken()
-    console.log(res);
     //token验证成功，修改vux中的信息
     if(res.status === 200) {
       store.commit('changeUserInfo', {
@@ -28,7 +28,6 @@ router.beforeEach(async function (to, from ,next) {
         userId: null,
         isLogin: false
       })
-      console.log(store.state)
     }
     next()
 })

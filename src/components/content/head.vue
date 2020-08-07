@@ -1,48 +1,92 @@
 <!--  -->
 <template>
 <div class='header'>
-  <a href="#" class="logo">酷狗君の博客</a>
-  <nav @click = "navbarClick">
-    <ul>
+  <el-row type="flex" justify="space-between">
+    <el-col :span="6" :xs="12" class="logo">
+      <a @click="mainClick">酷狗君の博客</a>
+    </el-col>
+    <el-col :span="4" class="menu_bar hidden-sm-and-up">
+      <button class="button" @click="isShowMenu = !isShowMenu"><i class="fa fa-bars" aria-hidden="true"></i></button>
+    </el-col>
+    <el-col :span="12" class="nav hidden-xs-only">
+      <ul @click = "navbarClick">
+        <li>
+          <i slot="icon" class="fa fa-home" aria-hidden="true"></i>
+          <a  data-path="Home">首页</a>
+        </li>
+        <li>
+          <i slot="icon" class="fa fa-film" aria-hidden="true"></i>
+          <a  data-path="Archive">归档</a>
+        </li>
+        <li>
+          <i slot="icon" class="fa fa-book" aria-hidden="true"></i>
+          <a  data-path="Categories">分类</a>
+        </li>
+        
+        <li>
+          <i slot="icon" class="fa fa-user" aria-hidden="true"></i>
+          <a  data-path="About">关于我</a>
+        </li>
+      </ul>
+    </el-col>
+    <el-col :span="6" class="hidden-xs-only login">
+      <div class="author" v-if="isLogin">
+        <el-button type="primary" size="small" @click="loginClick">登录</el-button>
+        <el-button type="primary" size="small" @click="registerClick">注册</el-button>
+      </div>
+      <div class="author username" v-else>
+        <el-dropdown @command="handleCommand">
+          <div>
+            <span>{{username}}</span>
+            <span><i class="el-icon-caret-bottom"></i></span>
+          </div>  
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="a" icon="el-icon-edit">新建博客</el-dropdown-item>
+            <el-dropdown-item command="b" disabled icon="el-icon-user-solid">用户中心</el-dropdown-item>
+            <el-dropdown-item command="c" icon="el-icon-switch-button">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+    </el-col>
+  </el-row>
+
+  <div class="menu_drop" :style="{'overflow': 'hidden',  'max-height': (isShowMenu? '500px' : '0')}">
+    <ul @click = "navbarClick">
       <li>
         <i slot="icon" class="fa fa-home" aria-hidden="true"></i>
-        <a  data-path="Home">首页</a>
+        <a  data-path="Home"> 首页</a>
       </li>
       <li>
         <i slot="icon" class="fa fa-film" aria-hidden="true"></i>
-        <a  data-path="Archive">归档</a>
+        <a  data-path="Archive"> 归档</a>
       </li>
       <li>
         <i slot="icon" class="fa fa-book" aria-hidden="true"></i>
-        <a  data-path="Categories">分类</a>
+        <a  data-path="Categories"> 分类</a>
       </li>
       
       <li>
         <i slot="icon" class="fa fa-user" aria-hidden="true"></i>
-        <a  data-path="About">关于我</a>
+        <a  data-path="About"> 关于我</a>
       </li>
     </ul>
-  </nav>
-  <div class="search">
-    <input type="text" name="" id="" class="nav-search" placeholder="想找点什么？">
-    <i slot="icon" class="fa fa-search" aria-hidden="true"></i>
-  </div>
-  <div class="author" v-if="isLogin">
-    <el-button type="primary" size="small" @click="loginClick">登录</el-button>
-    <el-button type="primary" size="small" @click="registerClick">注册</el-button>
-  </div>
-  <div class="author username" v-else>
-    <el-dropdown @command="handleCommand">
-      <div>
-        <span>{{username}}</span>
-        <span><i class="el-icon-caret-bottom"></i></span>
-      </div>  
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="a" icon="el-icon-edit">新建博客</el-dropdown-item>
-        <el-dropdown-item command="b" icon="el-icon-user-solid">用户中心</el-dropdown-item>
-        <el-dropdown-item command="c" icon="el-icon-switch-button">退出登录</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
+    <div  v-if="isLogin" class="login">
+      <el-button type="primary" size="small" @click="loginClick">登录</el-button>
+      <el-button type="primary" size="small" @click="registerClick">注册</el-button>
+    </div>
+    <div  v-else class="login">
+      <el-dropdown @command="handleCommand">
+        <div>
+          <span>{{username}}</span>
+          <span><i class="el-icon-caret-bottom"></i></span>
+        </div>  
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="a" icon="el-icon-edit">新建博客</el-dropdown-item>
+          <el-dropdown-item command="b" disabled icon="el-icon-user-solid">用户中心</el-dropdown-item>
+          <el-dropdown-item command="c" icon="el-icon-switch-button">退出登录</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
   </div>
 </div>
 </template>
@@ -57,7 +101,7 @@ components: {},
 data() {
 //这里存放数据
 return {
-
+  isShowMenu: false
 };
 },
 //监听属性 类似于data概念
@@ -99,8 +143,17 @@ methods: {
   handleCommand(command) {
     switch(command) {
       case "a" :
+        if(this.$store.state.priority === 1) {
+          window.location.href = '/background.html'
+        }else {
+          this.$message({
+            message: '不好意思，权限级别不够哦～',
+            type: 'warning'
+          })
+        }
         break
       case "b" :
+        alert('该功能敬请期待')
         break
       case "c" :
         console.log(1)
@@ -108,12 +161,16 @@ methods: {
         this.$router.go(0)
         break
     }
+  },
+
+  mainClick() {
+    window.location.href = '/'
   }
   
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
-
+  
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {
@@ -135,25 +192,18 @@ $text-color: #666;
 
 
 .header {
-  height: 50px;
   box-shadow: -1px 0px 3px;
+  line-height: 50px;
+
   .logo {
-    line-height: 50px;
-    margin: 0 30px;
+    margin: 0 0 0 20px;
     color: $text-color;
     font-size: 25px;
     font-weight: 900;
   }
-  nav {
-    display: inline-block;
-    vertical-align: top;
-    margin-left: 40px;
-    height: 100%;
-    color: #fff;
+  .nav {
     ul {
       display: flex;
-      height: 100%;
-      
       li {
         display: flex;
         font-size: 18px;
@@ -172,56 +222,81 @@ $text-color: #666;
         
       }
     }
+
   }
-  .search {
-    display: inline-block;
-    margin-left: 80px;
-    position: relative;
-    vertical-align: top;
-    width: 300px;
-    line-height: 50px;
-    input {
-      padding: 4px 8px;
-      overflow: hidden;
-      width: 100%;
-      background: #e7e7e7;
-      height: 34px;
-      border: none;
-      box-shadow: none;
-      font-size: 14px;
-      line-height: 34px;
-      transition: all .2s
+  .login {
+    .author {
+      display: flex;
+      float: right;
+      margin-right: 10px;
+      align-items: center;
+      justify-items: center;
+      height: 50px;
+      span {
+        color: #1b6d85;
+        cursor: pointer;
+      }
+
+    .username {
+      padding: 7px 14px;
     }
-    i {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      margin: auto;
-      padding: 0;
-      width: 48px;
-      text-align: center;
-      line-height: 34px;
-      height: 34px;
-      border: none;
-      border-radius: 2px;
-      background: #e7e7e7;
     }
-  }
-  .author {
-    height: 100%;
-    display: flex;
-    float: right;
-    margin-right: 10px;
-    align-items: center;
-    span {
-      color:#1b6d85;
-      cursor: pointer;
-    }
-  }
-  .username {
-    padding: 7px 14px;
-  }
+
   
+  }
+  .menu_bar {
+    .button {
+      position: relative;
+      float: right;
+      padding: 9px 10px;
+      margin-top: 6px;
+      margin-right: 15px;
+      margin-bottom: 6px;
+      background-color: #333;
+      background-image: none;
+      color: #fff;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      font-size: 14px;
+      border-color: #333;
+      &:active {
+        background-color: #666;
+      }
+    }
+    
+  }
+
+  .menu_drop {
+    display: none;
+    line-height: 40Px;
+    font-size: 16Px;
+    color:#666;
+    transition-property: max-height;
+    transition-duration: 0.7s;
+    -webkit-font-smoothing: antialiased;
+    ul {
+      li {
+        list-style: none;
+        padding: 0 20px;
+        &:hover {
+          background-color: #eee;
+          color: #38b7ea;
+        }
+        i {
+          font-size: 16px;
+        }
+      }
+    }
+    .login {
+      padding: 0 20px;
+      span {
+        color: #1b6d85;
+      }
+    }
+    @media screen and (max-width:767px) {
+      display: block;
+    }
+  }
 }
 
 </style>

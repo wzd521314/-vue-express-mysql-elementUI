@@ -1,43 +1,52 @@
 <!--  -->
 <template>
-<div class="body clear-fix">
-  <div class="container clear-fix">
-    <div class="content">
-      <blog-content v-for="item of blogData" :key="item.article_id" :articleIndex="item.article_id">
-        <template #article_title>
-          {{item.article_title}}
-        </template>
-        <template #article_date>
-          {{item.article_date}}
-        </template>
-        <template #article_author>
-          {{item.user_nickname}}
-        </template>
-        <template #label>
-          {{item.label_name}}
-        </template>
-        <template #article-content>
-          <div class="highLight markdown-body"><div v-html="item.article_content"></div></div>
-        </template>
-      </blog-content>
-    </div>
-    <div class="pagination">
-      <el-pagination
-      background
-      :current-page= 'currentPage'
-      :page-size= 5
-      :total= "total"
-      layout="prev, pager, next"
-      @current-change="handleCurrentChange">
-      </el-pagination>  
-    </div>
-  </div>
-  <div class="left">
-    <person-card></person-card>
-  </div>
-  <div class="right">
-    <notice></notice>
-  </div>
+<div class="body clear-fix" v-if="isShow">
+  <el-row  type="flex" justify="center">
+    <el-col :span="5"    class="left hidden-sm-and-down">
+      <div>
+        <person-card></person-card>
+      </div>
+    </el-col>
+    <el-col :md="12" :lg="12" >
+      <div class="container clear-fix">
+        <div class="content">
+          <blog-content v-for="item of blogData" :key="item.article_id" :articleIndex="item.article_id">
+            <template #article_title>
+              {{item.article_title}}
+            </template>
+            <template #article_date>
+              {{item.article_date}}
+            </template>
+            <template #article_author>
+              {{item.user_nickname}}
+            </template>
+            <template #label>
+              {{item.label_name}}
+            </template>
+            <template #article-content>
+              <div class="highLight markdown-body"><div v-html="item.article_content"></div></div>
+            </template>
+          </blog-content>
+        </div>
+        <div class="pagination">
+          <el-pagination
+          background
+          :pager-count="5"
+          :current-page= 'currentPage'
+          :page-size= 5
+          :total= "total"
+          layout="prev, pager, next"
+          @current-change="handleCurrentChange">
+          </el-pagination>  
+        </div>
+      </div>
+    </el-col>
+    <el-col :span="5"  class="right hidden-sm-and-down">
+      <div>
+        <notice :commentCount="commentCount" :messageCount="messageCount" :commentList="commentList"  :messageList="messageList" @toggleComment="toggleComment" @toggleMessage="toggleMessage"></notice>
+      </div>
+    </el-col>
+  </el-row>
 </div>
 </template>
 
@@ -47,7 +56,7 @@
 import personCard from "components/content/personCard.vue"
 import blogContent from 'components/content/blogContent.vue'
 import notice from 'components/content/notice.vue'
-import {postPageData} from 'network/home.js'
+import {postPageData, getNewComment, getNewMessage} from 'network/home.js'
 
 import marked from 'marked'
 import hljs from "highlight.js";
@@ -82,7 +91,17 @@ data() {
 return {
   total: null,
   currentPage: 1,
-  blogData: []
+  blogData: [],
+
+  isShow: false,
+
+
+  commentList: [],
+  messageList: [],
+
+  commentCount: null,
+  messageCount: null
+
 };
 },
 //监听属性 类似于data概念
@@ -91,6 +110,7 @@ computed: {},
 watch: {},
 //方法集合
 methods: {
+  //博客内容分页内容获取
   handleCurrentChange(val) {
     this.currentPage = val
     //页面跳转是获取下一页的数据
@@ -103,19 +123,61 @@ methods: {
       
       this.blogData = blog[0]
     })
+  },
+  //根据子元素传递过来的目标页面来获取分页评论
+  toggleComment(targetPage){
+    getNewComment(targetPage ,5).then(result => {
+      
+      this.commentList = result.data.data[0]
+      this.commentCount = result.data.data[1][0].counts
+    })
+  },
+
+  //根据子元素传递过来的目标页面来获取分页留言
+  toggleMessage(targetPage){
+    getNewMessage(targetPage, 5).then(result => {
+      this.messageList = result.data.data[0]
+      this.messageCount = result.data.data[1][0].counts
+    })
   }
+
+  
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
   //在页面创建后获取初始化的博客数据
+  
   postPageData(5, this.currentPage).then(result => {
+    
     let blog = result.data.data
     this.total = blog[1][0].count
+    //做个标记，这里首页加载速度慢是因为每次都解析五篇超长文章，以后来修改
     blog[0].forEach(element => {
-        element.article_content = marked(element.article_content)
-      })
+      element.article_content = marked(element.article_content)
+    })
+      
     this.blogData = blog[0]
+    
+
+    this.$nextTick(() => {
+      
+      this.isShow = true
+    })
+  }),
+  getNewComment(1 ,5).then(result => {
+    
+    this.commentList = result.data.data[0]
+    this.commentCount = result.data.data[1][0].counts
+
+    
+    
+  }),
+  getNewMessage(1, 5).then(result => {
+    this.messageList = result.data.data[0]
+    this.messageCount = result.data.data[1][0].counts
+    
   })
+  
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {
@@ -135,12 +197,9 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 .body {
   padding-top: 20px;
   margin: 0 auto;
-  width: calc(100% - 200px);
   overflow: hidden;
   .container {
-    float: left;
-    width: 100%;
-    padding: 0 280px;
+    margin: 0 20px;
     padding-bottom: 10000px;
     margin-bottom: -10000px;
     .pagination {
@@ -149,17 +208,12 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
     }
   }
   .left {
-    float: left;
-    width: 250px;
-    margin-left: -100%;
+    max-width: 260px;
     padding-bottom: 10000px;
     margin-bottom: -10000px;
 
   }
   .right {
-    width: 250px;
-    float: right;
-    margin-left: -250px;
     padding-bottom: 10000px;
     margin-bottom: -10000px;
 

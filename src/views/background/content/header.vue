@@ -1,8 +1,7 @@
 <!--  -->
 <template>
 <div class='header'>
-  <div class="left"><span>BLOG-Kugou</span></div>
-  <div class="right">aaa</div>
+  <div class="left" @click='labelClick'><span>BLOG-Kugou</span></div>
 </div>
 </template>
 
@@ -19,6 +18,11 @@ return {
 
 };
 },
+methods: {
+  labelClick() {
+    window.location.href = '/'
+  }
+},
 }
 </script>
 <style lang='scss' scoped>
@@ -31,15 +35,12 @@ return {
   float: left;
   color: #606266;
   font-size: 24px;
+  cursor: pointer;
   letter-spacing: 2px;
   font-weight: bold;
   text-align: center;
   width: 200px;
 }
 
-.right {
-  float: right;
-  width: 100px;
-  background-color: darkorchid;
-}
+
 </style>

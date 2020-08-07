@@ -58,6 +58,12 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+    beforeEnter(to, from , next) {
+      if(from.name === 'articleContent') {
+        to.params.from = 'comment'
+      }
+      next()
+    }
   },
   {
     path: '/register',
