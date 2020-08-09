@@ -103,6 +103,10 @@ methods: {
   handleCurrentChange(val) {
     getLabelBlog(val, 10, this.currentTag).then(result => {
       this.dealedBloglist = result.data.data[0]
+
+      //分页跳转后回到页面顶部
+      document.documentElement.scrollTop = 0
+
     })
   }
 },

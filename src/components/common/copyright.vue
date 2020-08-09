@@ -75,6 +75,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
     }
     a {
       text-decoration: none;
+      color: rgb(12, 138, 117);
       cursor: pointer;
       &:visited {
         color: rgb(12, 138, 117);

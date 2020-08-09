@@ -11,20 +11,20 @@
     <el-col :span="12" class="nav hidden-xs-only">
       <ul @click = "navbarClick">
         <li>
-          <i slot="icon" class="fa fa-home" aria-hidden="true"></i>
+          <i class="el-icon-aim"></i>
           <a  data-path="Home">首页</a>
         </li>
         <li>
-          <i slot="icon" class="fa fa-film" aria-hidden="true"></i>
+          <i class="el-icon-folder-opened"></i>
           <a  data-path="Archive">归档</a>
         </li>
         <li>
-          <i slot="icon" class="fa fa-book" aria-hidden="true"></i>
+          <i class="el-icon-collection-tag"></i>
           <a  data-path="Categories">分类</a>
         </li>
         
         <li>
-          <i slot="icon" class="fa fa-user" aria-hidden="true"></i>
+          <i class="el-icon-magic-stick"></i>
           <a  data-path="About">关于我</a>
         </li>
       </ul>
@@ -218,6 +218,7 @@ $text-color: #666;
         }
         i {
         margin-right: 5px;
+        font-size: 18px;
         }
         
       }

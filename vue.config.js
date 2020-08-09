@@ -26,7 +26,7 @@ module.exports = {
       filename: 'index.html',
 
       //当使用title选项时
-      title: '个人blog',
+      title: '酷狗君の个人小站',
 
       //提取出来的通用chunk 和 vendor chunk
       chunks: ['chunk-vendors', 'chunk-common' , 'index']
@@ -35,7 +35,7 @@ module.exports = {
       entry: './src/views/background/main.js',
       template: './public/background.html',
       filename: 'background.html',
-      title: '博客后台',
+      title: '博客后台管理',
       chunks: ['chunk-vendors', 'chunk-common' , 'background']
     },
     login: {

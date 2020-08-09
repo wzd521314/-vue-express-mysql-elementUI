@@ -1,14 +1,22 @@
 <!--  -->
 <template>
 <div class="body clear-fix" v-if="isShow">
-  <el-row  type="flex" justify="center">
-    <el-col :span="5"    class="left hidden-sm-and-down">
+  <el-row  type="flex" justify="center" class="home-content">
+    <el-col  :lg="4" :md="5"      class="left hidden-sm-and-down">
       <div>
         <person-card></person-card>
+        <div class="web-info">
+          <div class="info-head"><i class="el-icon-tickets"></i> 网站信息</div>
+          <p><i class="el-icon-edit-outline"></i> 文章总数: {{total}}篇</p>
+          <p><i class="el-icon-s-flag"></i> 类别总数: {{labelCount}}个</p>
+          <p><i class="el-icon-s-comment"></i> 评论总数: {{commentCount}}条</p>
+          <p><i class="el-icon-connection"></i> 留言总数: {{messageCount}}条</p>
+          <p><i class="el-icon-date"></i> 网站最后更新: 2020-08-08</p>
+        </div>
       </div>
     </el-col>
-    <el-col :md="12" :lg="12" >
-      <div class="container clear-fix">
+    <el-col :md="12" :lg="12">
+      <div class="clear-fix container">
         <div class="content">
           <blog-content v-for="item of blogData" :key="item.article_id" :articleIndex="item.article_id">
             <template #article_title>
@@ -41,7 +49,7 @@
         </div>
       </div>
     </el-col>
-    <el-col :span="5"  class="right hidden-sm-and-down">
+    <el-col  :lg="5" :md="5"   class="right hidden-sm-only">
       <div>
         <notice :commentCount="commentCount" :messageCount="messageCount" :commentList="commentList"  :messageList="messageList" @toggleComment="toggleComment" @toggleMessage="toggleMessage"></notice>
       </div>
@@ -56,7 +64,7 @@
 import personCard from "components/content/personCard.vue"
 import blogContent from 'components/content/blogContent.vue'
 import notice from 'components/content/notice.vue'
-import {postPageData, getNewComment, getNewMessage} from 'network/home.js'
+import {postPageData, getNewComment, getNewMessage, getLabelCount} from 'network/home.js'
 
 import marked from 'marked'
 import hljs from "highlight.js";
@@ -100,7 +108,9 @@ return {
   messageList: [],
 
   commentCount: null,
-  messageCount: null
+  messageCount: null,
+
+  labelCount: null
 
 };
 },
@@ -122,6 +132,8 @@ methods: {
       }) 
       
       this.blogData = blog[0]
+      //分页跳转后回到页面顶部
+      document.documentElement.scrollTop = 0
     })
   },
   //根据子元素传递过来的目标页面来获取分页评论
@@ -176,6 +188,11 @@ created() {
     this.messageList = result.data.data[0]
     this.messageCount = result.data.data[1][0].counts
     
+  }),
+
+  getLabelCount().then(result => {
+    this.labelCount = result.data.data[0].counts
+    
   })
   
 },
@@ -195,10 +212,16 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
 .body {
-  padding-top: 20px;
   margin: 0 auto;
   overflow: hidden;
+  .home-content {
+    @media screen and (max-width: 768px) {
+      flex-wrap: wrap;
+    }
+  }
   .container {
+    padding-top: 20px;
+
     margin: 0 20px;
     padding-bottom: 10000px;
     margin-bottom: -10000px;
@@ -208,12 +231,45 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
     }
   }
   .left {
-    max-width: 260px;
+    padding-top: 20px;
+
     padding-bottom: 10000px;
     margin-bottom: -10000px;
+    .web-info {
+      margin-top: 20px;
+      box-shadow: 0 2px 5px 0 rgba(33, 22, 22, 0.2), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+      border: 1px solid silver;
+      padding: 15px;
+      p {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        padding: 4px 0;
+        &:first-of-type {
+          margin-top: 16px;
+        }
+        
+      }
+
+      
+
+      .info-head {
+        font-size: 16px;
+        font-weight: 900;
+        border-bottom: 1px solid #999;
+        padding-bottom: 8px;
+        i {
+          padding-right: 5px;
+          font-size: 16px;
+          font-weight: 900;
+        }
+      }
+    }
 
   }
   .right {
+    padding-top: 20px;
+    margin: 0 20px;
     padding-bottom: 10000px;
     margin-bottom: -10000px;
 

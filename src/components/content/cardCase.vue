@@ -2,11 +2,27 @@
 <template>
 <div class='cardCase'>
   <account>
-    <account-item><img class="account-picture" src="~assets/img/svg/QQ.svg" slot="account-icon"><a slot="account-username">南风拂过少年时</a></account-item>
-    <account-item><img class="account-picture" src="~assets/img/svg/weiBo.svg" slot="account-icon"><a slot="account-username">萌萌哒的酷狗君</a></account-item>
-    <account-item><img class="account-picture" src="~assets/img/svg/weChat.svg" slot="account-icon"><a slot="account-username">万振东</a></account-item>    
-    <account-item><img class="account-picture" src="~assets/img/svg/GitHub.svg" slot="account-icon"><a slot="account-username">wzd521314</a></account-item>
+    <account-item v-popover:popover><img class="account-picture" src="~assets/img/svg/QQ.svg" slot="account-icon"><a slot="account-username" >南风拂过少年时</a></account-item>
+    <account-item><img class="account-picture" src="~assets/img/svg/weiBo.svg" slot="account-icon"><a slot="account-username" href="https://weibo.com/5449696266/">萌萌哒的酷狗君</a></account-item>
+    <account-item v-popover:popover1><img class="account-picture" src="~assets/img/svg/weChat.svg" slot="account-icon"><a slot="account-username" >万振东</a></account-item>    
+    <account-item><img class="account-picture" src="~assets/img/svg/GitHub.svg" slot="account-icon"><a slot="account-username" href="https://github.com/wzd521314">wzd521314</a></account-item>
   </account>
+
+  <el-popover
+    ref="popover"
+    placement="right"
+    width="200"
+    trigger="hover">
+    <img src="~assets/img/WechatIMG84.jpeg" alt="">
+  </el-popover>
+
+  <el-popover
+    ref="popover1"
+    placement="right"
+    width="200"
+    trigger="hover">
+    <img src="~assets/img/WechatIMG80.png" alt="">
+  </el-popover>
 </div>
 </template>
 
@@ -39,5 +55,12 @@ return {
 img{
   width: 100%;
   height: 100%;
+}
+
+a {
+  color: #333;
+  &:visited {
+    color: #333;
+  }
 }
 </style>

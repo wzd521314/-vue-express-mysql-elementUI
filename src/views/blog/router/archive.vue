@@ -115,6 +115,8 @@ methods: {
 
       getDateBlog(this.blog.currentPage, this.blog.pageSize, this.currentYear, this.currentMonth).then(result => {
         this.blog.list = result.data.data
+        //分页跳转后回到页面顶部
+        document.documentElement.scrollTop = 0
       })
     }else{
       postPageData(this.blog.pageSize, this.blog.currentPage).then(result => {
@@ -122,6 +124,8 @@ methods: {
       this.blog.totalItem = result.data.data[1][0].count
       this.blog.list = result.data.data[0]
       console.log(this.dealedBlogList)
+      //分页跳转后回到页面顶部
+      document.documentElement.scrollTop = 0
     })
     }
   },

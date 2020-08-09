@@ -4,9 +4,9 @@
   <header>
     <h1><span @click="contentJump"><slot name="article_title">愿你编码半生 归来仍是少年</slot></span></h1>
     <div class="itemRows">
-      <span class="item"><i class="fa fa-clock-o" aria-hidden="true"></i><i><slot name="article_date"> 2020-07-14</slot></i></span>
-      <span class="item"><i class="fa fa-user" aria-hidden="true"></i><i><slot name="atticle_author"> 萌萌哒的酷狗君</slot></i></span>
-      <span class="item"><i class="fa fa-folder-open-o" aria-hidden="true"></i><i><slot name="label"> JavaScript</slot></i></span>
+      <span class="item"><i class="el-icon-date"></i><i><slot name="article_date"> 2020-07-14</slot></i></span>
+      <span class="item"><i class="el-icon-user"></i><i><slot name="atticle_author"> 萌萌哒的酷狗君</slot></i></span>
+      <span class="item"><i class="el-icon-collection-tag"></i><i><slot name="label"> JavaScript</slot></i></span>
     </div>
   </header>
   <div id="article_content">

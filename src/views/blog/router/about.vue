@@ -2,7 +2,10 @@
 <template>
 <div class='about'>
   <head1></head1>
-  <div>还没想好怎么介绍自己哦</div> 
+  <div class="me">
+    <p style="font-size: 20px; font-weight: 600; padding: 15px">还没想好怎么介绍自己，就先放张自拍吧～</p>
+    <div><img src="~assets/img/7e24774ec2b805cb12b490ded2d8a723.jpg" alt=""></div>
+  </div> 
   <copyright></copyright> 
 </div>
 </template>
@@ -53,6 +56,14 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
 .about {
-  
+  .me {
+    padding: 0 15px;
+    margin-top: 50px;
+    text-align: center;
+    img {
+      width: 100%;
+      max-width: 450px;
+    }
+  }
 }
 </style>

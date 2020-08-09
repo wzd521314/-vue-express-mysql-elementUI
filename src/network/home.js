@@ -147,3 +147,11 @@ export function getNewMessage(currentPage, size) {
         }
     })
 }
+
+//获得分类个数
+export function getLabelCount() {
+    return request({
+        method: 'post',
+        url: '/api/getLabelCount'
+    })
+}
