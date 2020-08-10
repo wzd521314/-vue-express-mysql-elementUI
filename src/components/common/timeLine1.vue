@@ -7,10 +7,10 @@
     </span>
     <h1 class="title"># 很好！目前总计<span>{{totalCount}}</span>篇日志，继续加油！</h1>
   </div>
-  <div v-for="item in blogList" :key="item.year">
+  <div v-for="(item,index) in blogList" :key="index">
     <div class="time-line-row-major">
       <span class="node"></span>
-      <div class="nodeYear">{{item.year}}年</div>
+      <div class="nodeYear">{{item.year}}年{{item.month}}月</div>
     </div>
     <div class="time-line-row-major" v-for="element in item.data" :key="element.article_id">
       <span class="node"></span>

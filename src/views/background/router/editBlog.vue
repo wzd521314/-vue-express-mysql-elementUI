@@ -45,7 +45,7 @@
       <div><span>文章标题：</span><el-input class="input" v-model="editBlog.title" placeholder="请输入文章标题" clearable></el-input></div>
       <div>
         <span>文章分类：</span>
-        <el-select class="input" v-model="editBlog.tag"  placeholder="选一个喜欢的吧">
+        <el-select class="input" v-model="editBlog.label_id"  placeholder="选一个喜欢的吧">
           <el-option
           v-for="item in tagLists"
           :key="item.label_id"
@@ -53,6 +53,16 @@
           :value="item.label_id">
           </el-option>
         </el-select>
+      </div>
+      <div class="abstract">
+        <div>文章摘要：</div>
+        <el-input
+          class="input"
+          type="textarea"
+          :autosize="{ minRows: 2}"
+          placeholder="文章摘要"
+          v-model="editBlog.abstract">
+        </el-input>
       </div>
       <mavon-editor class="markdown" v-model="editBlog.content" :toolbars="toolbars"></mavon-editor>
       <div slot="footer" class="dialog-footer">
@@ -92,7 +102,9 @@ return {
     title: '',
     tag: '',
     content: '',
-    id: undefined
+    abstract: '',
+    id: undefined,
+    label_id: ''
   },
   tagLists: [],
   selectionId: null,
@@ -161,6 +173,8 @@ methods: {
       this.editBlog.content = result.data.data.article_content;
       this.editBlog.tag = result.data.data.label_name
       this.editBlog.id = result.data.data.article_id
+      this.editBlog.abstract = result.data.data.article_abstract
+      this.editBlog.label_id = result.data.data.label_id
       return getTags()
     }).then(result => {
       this.tagLists = result.data.data;
@@ -181,7 +195,6 @@ methods: {
 
   //处理删除点击
   handleDel(id) {
-    console.log(id)
     let blogId = []
     blogId[0] = id
     delBlog(blogId).then(result => {
@@ -228,6 +241,12 @@ created() {
           width: 80%;
           margin-bottom: 10px;
         }
+
+        .abstract {
+          display: flex;
+          justify-content: flex-start;
+        }
+
         .markdown-body {
           overflow: auto;
           min-height: 400px;

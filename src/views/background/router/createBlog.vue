@@ -18,6 +18,28 @@
       <el-button icon="el-icon-plus" size="small" class="new_tag" type="primary" @click=" centerDialogVisible = true">添加分类</el-button>
 
     </el-form-item>
+    <el-form-item label="文章摘要" prop="abstract">
+      <el-input
+        type="textarea"
+        :autosize="{ minRows: 2}"
+        placeholder="文章摘要"
+        v-model="blog.abstract">
+      </el-input>
+    </el-form-item>
+
+    <el-form-item label="文章配图" prop="picture">
+      <el-upload
+        action=''
+        :auto-upload="true"
+        :http-request="upload"
+        list-type="picture-card"
+        :show-file-list="false"
+        :before-upload="beforeAvatarUpload">
+        <i v-if="!blog.picture" class="el-icon-plus"></i>
+        <img v-if="blog.picture" style="width: 100%" :src="blog.picture" alt="">
+      </el-upload>
+    </el-form-item>
+
     <el-form-item label="文章内容" prop="content">
       <mavon-editor class="markdown" v-model="blog.content" :toolbars="toolbars"></mavon-editor>
     </el-form-item>
@@ -44,7 +66,7 @@
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
 import {postBlogData ,getTags, newTag} from 'network/home.js'
-
+import {changeFileName, blogBucket} from 'utils/alioss.js'
 export default {
 //import引入的组件需要注入到对象中才能使用
 components: {
@@ -62,10 +84,17 @@ computed: {
 data() {
 //这里存放数据
 return {
+  dialogImageUrl: '',
+  dialogVisible: false,
+
+
+
   blog: {
     title: '',
     tag: '',
-    content: ''
+    content: '',
+    abstract: '',
+    picture: ''
   },
 
   centerDialogVisible: false,
@@ -83,6 +112,12 @@ return {
     ],
     content: [
       {required: true, message: '请输入文章内容', type: 'string', trigger: 'change'}
+    ],
+    abstract: [
+      {required: true, message: '请输入摘要内容', type: 'string', trigger: 'change'}
+    ],
+    picture: [
+      {required: true, message: '求求你了，搞张图片吧', type: 'string', trigger: 'change'}
     ]
   },
   //markdown插件配置
@@ -126,16 +161,15 @@ return {
 };
 },
 methods: {
-   
+  //提交新建博客
   submitForm(formName) {
     this.$refs[formName].validate((valid) => {
       if (valid) {
-        postBlogData(this.blog.title, this.blog.tag, this.blog.content).then(() => {
-          console.log(this.blog.tag);
-          console.log(this.tagLists);
-          
-          
-          alert('新建博客成功')
+        postBlogData(this.blog.title, this.blog.tag, this.blog.content, this.blog.abstract, this.blog.picture).then(() => {
+          this.$message.success('新建博客成功')
+          this.resetForm('blog')
+          document.documentElement.scrollTop = 0
+
         })
         
       } else {
@@ -144,11 +178,11 @@ methods: {
       }
     });
   },
-
+  //重置博客内容
   resetForm(formName) {
     this.$refs[formName].resetFields();
   },
-
+  //新建标签
   createTag() {
     
     if(this.tagArray.indexOf(this.newTag) > -1) {
@@ -175,9 +209,41 @@ methods: {
 
     
     
-  }
+  },
 
-   
+  
+  beforeAvatarUpload(file) {
+    //采用正则表达式检测上传的是否为图片
+    let imgExg = /image\/*/i
+    
+    const isImg = imgExg.test(file.type)
+    const isLt2M = file.size / 1024 / 1024 < 5
+
+    if(!isImg) {
+      this.$message.error('只能上传图片哦')
+    }
+
+    if (!isLt2M) {
+      this.$message.error('上传头像图片大小不能超过 5MB!');
+    }
+
+    return isImg && isLt2M
+
+  },
+  
+  //修改element ui组件的默认上传行为
+  async upload(file) {
+    //将上传的文件的文件名处理一下，防止重复
+    
+    let filename = changeFileName(file.file.name);
+    //将图片上传到blogPicture文件夹内
+    let res = await blogBucket().put(`blogPicture/${filename}`, file.file).catch(error => {
+      throw(error)
+    })
+    this.$message.success('上传成功')
+    this.blog.picture = res.url
+
+  }
 },
 created() {
   //获取标签列表
@@ -189,6 +255,14 @@ created() {
 
 
 </script>
+
+<style lang="scss">
+#background .el-upload--picture-card {
+  width: 160px;
+  height: 90px;
+  line-height: 90px;
+}
+</style>
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
 

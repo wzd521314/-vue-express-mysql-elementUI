@@ -2,7 +2,7 @@
 <template>
 <div class='home'>
   <head1></head1>
-  <content1></content1>
+   <content1></content1>
   <copyright></copyright>
 </div>
 </template>
@@ -17,6 +17,7 @@ import copyright from 'components/common/copyright.vue'
 
 export default {
 //import引入的组件需要注入到对象中才能使用
+name: 'Home',
 components: {
   content1,
   head1,

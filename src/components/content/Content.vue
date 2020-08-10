@@ -26,13 +26,16 @@
               {{item.article_date}}
             </template>
             <template #article_author>
-              {{item.user_nickname}}
+              
             </template>
             <template #label>
               {{item.label_name}}
             </template>
-            <template #article-content>
-              <div class="highLight markdown-body"><div v-html="item.article_content"></div></div>
+            <template #article-picture>
+              <img style="width: 100%" :src="item.article_picture" alt="">
+            </template>
+            <template #article-abstract>
+              {{item.article_abstract}}
             </template>
           </blog-content>
         </div>
@@ -66,25 +69,7 @@ import blogContent from 'components/content/blogContent.vue'
 import notice from 'components/content/notice.vue'
 import {postPageData, getNewComment, getNewMessage, getLabelCount} from 'network/home.js'
 
-import marked from 'marked'
-import hljs from "highlight.js";
-import 'highlight.js/styles/monokai-sublime.css';
 
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  highlight: function(code) {
-    return hljs.highlightAuto(code).value;
-  },
-  
-  pedantic: false,
-  gfm: true,
-  tables: true,
-  breaks: false,
-  sanitize: false,
-  smartLists: true,
-  smartypants: false,
-  xhtml: false
-});
 
 export default {
 //import引入的组件需要注入到对象中才能使用
@@ -127,11 +112,11 @@ methods: {
     postPageData(5, this.currentPage).then(result => {
       let blog = result.data.data
       this.total = blog[1][0].count
-      blog[0].forEach(element => {
-        element.article_content = marked(element.article_content)
-      }) 
+       
       
       this.blogData = blog[0]
+      console.log(this.blogData);
+      
       //分页跳转后回到页面顶部
       document.documentElement.scrollTop = 0
     })
@@ -158,17 +143,17 @@ methods: {
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
   //在页面创建后获取初始化的博客数据
+  console.log(222);
   
   postPageData(5, this.currentPage).then(result => {
+    console.log(result);
     
     let blog = result.data.data
     this.total = blog[1][0].count
-    //做个标记，这里首页加载速度慢是因为每次都解析五篇超长文章，以后来修改
-    blog[0].forEach(element => {
-      element.article_content = marked(element.article_content)
-    })
       
     this.blogData = blog[0]
+    console.log(this.blogData);
+    
     
 
     this.$nextTick(() => {
@@ -206,7 +191,10 @@ beforeUpdate() {}, //生命周期 - 更新之前
 updated() {}, //生命周期 - 更新之后
 beforeDestroy() {}, //生命周期 - 销毁之前
 destroyed() {}, //生命周期 - 销毁完成
-activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+activated() {
+  console.log(123);
+  
+}, //如果页面有keep-alive缓存功能，这个函数会触发
 }
 </script>
 <style lang='scss' scoped>

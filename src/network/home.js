@@ -12,14 +12,16 @@ export function getBlogDetails(id) {
 }
 
 //新建博客
-export function postBlogData(title, tag, content) {
+export function postBlogData(title, tag, content, abstract, picture) {
     return request({
         method: 'post',
         url: '/api/newblog',
         data: {
             title,
             tag,
-            content
+            content,
+            abstract,
+            picture
         }
     })
 }
@@ -37,7 +39,7 @@ export function postPageData(pageSize, targetPage) {
 }
 
 //修改博客数据
-export function editBlogData({title, id, tag, content}) {
+export function editBlogData({title, id, label_id, content, abstract}) {
     return request({
         method: 'post',
         url: '/api/update',
@@ -45,7 +47,8 @@ export function editBlogData({title, id, tag, content}) {
             title,
             id,
             content,
-            tag
+            label_id,
+            abstract
         }
     })
 }

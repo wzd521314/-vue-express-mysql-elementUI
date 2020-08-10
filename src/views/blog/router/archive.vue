@@ -45,6 +45,7 @@ import {postPageData, getDateCount, getDateBlog} from 'network/home.js'
 
 export default {
 //import引入的组件需要注入到对象中才能使用
+name: 'archive',
 components: {
   timeLine,
   categoriesAside,
@@ -73,28 +74,37 @@ computed: {
   dealedBlogList() {
     if(this.blog.list.length !==0) {
       let totalData = this.blog.list
+      
+      
       let list = []
       let index = 0
       let originYear = parseInt(this.blog.list[0].article_date.substring(0, 4))
+      let originMonth = parseInt(this.blog.list[0].article_date.substring(5, 7))
       let currentYear = originYear
+      let currentMonth = originMonth
       let Info = {
         year: originYear,
+        month: originMonth,
         data: [totalData[0]]
       }
       list[index] = Info
       for (let i = 1;i< totalData.length ; i++) {
         currentYear = parseInt(totalData[i].article_date.substring(0, 4))
-        if(currentYear === originYear) {
+        currentMonth = parseInt(totalData[i].article_date.substring(5, 7))
+        if(currentYear === originYear && currentMonth === originMonth) {
           list[index].data.push(totalData[i])
         }else {
           index++
           list[index] = {
             year: null,
+            month: null,
             data: []
           }
           list[index].year = currentYear
+          list[index].month = currentMonth
           list[index].data.push(totalData[i])
           originYear = currentYear
+          originMonth = currentMonth
           
         }
       }
@@ -123,7 +133,6 @@ methods: {
       this.blog.list = []
       this.blog.totalItem = result.data.data[1][0].count
       this.blog.list = result.data.data[0]
-      console.log(this.dealedBlogList)
       //分页跳转后回到页面顶部
       document.documentElement.scrollTop = 0
     })
@@ -139,13 +148,11 @@ methods: {
       this.blog.totalItem = dateInfo.count
       this.isLabel = true
 
-      console.log(this.blog.list[0].article_date.substring(0,4))
     })
   }
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
-  console.log(1);
   
   postPageData(this.blog.pageSize, this.blog.currentPage).then(result => {
       this.blog.list = []
@@ -158,7 +165,6 @@ created() {
   }),
   getDateCount().then(result => {
     this.labelInfo = result.data.data
-    console.log(2);
     
   })
 },

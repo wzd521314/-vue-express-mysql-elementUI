@@ -14,6 +14,7 @@ const About = () => import ('blog/router/about.vue')
 const articleContent = () => import ('blog/router/articleContent.vue')
 const Login = () => import ('blog/router/login.vue')
 const Register = () => import ('blog/router/register.vue')
+const Update = () => import('blog/router/update.vue')
 
 
 
@@ -69,6 +70,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/update',
+    name: 'Update',
+    component: Update
   },
   {
     path: '',

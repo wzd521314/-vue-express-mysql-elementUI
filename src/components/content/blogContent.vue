@@ -5,13 +5,15 @@
     <h1><span @click="contentJump"><slot name="article_title">愿你编码半生 归来仍是少年</slot></span></h1>
     <div class="itemRows">
       <span class="item"><i class="el-icon-date"></i><i><slot name="article_date"> 2020-07-14</slot></i></span>
-      <span class="item"><i class="el-icon-user"></i><i><slot name="atticle_author"> 萌萌哒的酷狗君</slot></i></span>
+      <span class="item"><i class="el-icon-user"></i><i><slot name="atticle_author"> Mr.Wan</slot></i></span>
       <span class="item"><i class="el-icon-collection-tag"></i><i><slot name="label"> JavaScript</slot></i></span>
     </div>
   </header>
-  <div id="article_content">
-    <slot name="article-content">
-    </slot>
+  <div  style="padding: 10px 0;">
+    <slot name="article-picture"></slot>
+    <div id="article_content">
+      <slot name="article-abstract"></slot>
+    </div>
   </div>
   <hr>
   <div class="readMore" @click="contentJump" ><span>阅读全文<i class="fa fa-angle-double-right" aria-hidden="true"></i></span> </div>
@@ -73,15 +75,14 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
 .blog {
-  padding: 0 0 20px 20px;
+  padding: 0 20px 20px 20px;
   margin-bottom: 25px;
   box-sizing: content-box;
   border: 1px solid silver;
   box-shadow: 0 2px 5px 0 rgba(33, 22, 22, 0.2), 0 2px 10px 0 rgba(0,0,0,0.12);
   header {
-    height: 80px;
     h1 {
-      margin: 14px 0 16px 0;
+      margin: 14px 0 10px 0;
       font-size:  24px;
       font-weight: 600;
       color: #7f7f7f;
@@ -103,7 +104,17 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
     }
   }
   #article_content {
-    padding: 10px 8px 10px 8px;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    font-size: 16px;
+    line-height: 2em;
+    color: #565a5f;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+
   }
   .readMore {
     font-size: 16px;

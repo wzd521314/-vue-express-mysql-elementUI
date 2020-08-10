@@ -8,28 +8,31 @@
     <el-col :span="4" class="menu_bar hidden-sm-and-up">
       <button class="button" @click="isShowMenu = !isShowMenu"><i class="fa fa-bars" aria-hidden="true"></i></button>
     </el-col>
-    <el-col :span="12" class="nav hidden-xs-only">
+    <el-col :span="15" class="nav hidden-xs-only">
       <ul @click = "navbarClick">
         <li>
           <i class="el-icon-aim"></i>
-          <a  data-path="Home">首页</a>
+          <a  data-path="Home"> 首页</a>
         </li>
         <li>
           <i class="el-icon-folder-opened"></i>
-          <a  data-path="Archive">归档</a>
+          <a  data-path="Archive"> 归档</a>
         </li>
         <li>
           <i class="el-icon-collection-tag"></i>
-          <a  data-path="Categories">分类</a>
+          <a  data-path="Categories"> 分类</a>
         </li>
-        
+        <li>
+          <i class="el-icon-present"></i>
+          <a  data-path="Update"> 更新</a>
+        </li>
         <li>
           <i class="el-icon-magic-stick"></i>
-          <a  data-path="About">关于我</a>
+          <a  data-path="About"> 关于我</a>
         </li>
       </ul>
     </el-col>
-    <el-col :span="6" class="hidden-xs-only login">
+    <el-col :span="5" class="hidden-xs-only login">
       <div class="author" v-if="isLogin">
         <el-button type="primary" size="small" @click="loginClick">登录</el-button>
         <el-button type="primary" size="small" @click="registerClick">注册</el-button>
@@ -52,23 +55,26 @@
 
   <div class="menu_drop" :style="{'overflow': 'hidden',  'max-height': (isShowMenu? '500px' : '0')}">
     <ul @click = "navbarClick">
-      <li>
-        <i slot="icon" class="fa fa-home" aria-hidden="true"></i>
-        <a  data-path="Home"> 首页</a>
-      </li>
-      <li>
-        <i slot="icon" class="fa fa-film" aria-hidden="true"></i>
-        <a  data-path="Archive"> 归档</a>
-      </li>
-      <li>
-        <i slot="icon" class="fa fa-book" aria-hidden="true"></i>
-        <a  data-path="Categories"> 分类</a>
-      </li>
-      
-      <li>
-        <i slot="icon" class="fa fa-user" aria-hidden="true"></i>
-        <a  data-path="About"> 关于我</a>
-      </li>
+        <li>
+          <i class="el-icon-aim"></i>
+          <a  data-path="Home">首页</a>
+        </li>
+        <li>
+          <i class="el-icon-folder-opened"></i>
+          <a  data-path="Archive">归档</a>
+        </li>
+        <li>
+          <i class="el-icon-collection-tag"></i>
+          <a  data-path="Categories">分类</a>
+        </li>
+        <li>
+          <i class="el-icon-present"></i>
+          <a  data-path="Update">更新</a>
+        </li>
+        <li>
+          <i class="el-icon-magic-stick"></i>
+          <a  data-path="About">关于我</a>
+        </li>
     </ul>
     <div  v-if="isLogin" class="login">
       <el-button type="primary" size="small" @click="loginClick">登录</el-button>
@@ -182,7 +188,10 @@ beforeUpdate() {}, //生命周期 - 更新之前
 updated() {}, //生命周期 - 更新之后
 beforeDestroy() {}, //生命周期 - 销毁之前
 destroyed() {}, //生命周期 - 销毁完成
-activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+activated() {
+  //keep-alive模式下，下拉菜单的状态不会重置，需要在这里重置一下
+  this.isShowMenu = false
+}, 
 }
 </script>
 <style lang='scss' scoped>

@@ -1,7 +1,8 @@
 <template>
   <div id="blog">
-    <router-view></router-view>
-    
+    <keep-alive include="Home,archive">
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 <script>
